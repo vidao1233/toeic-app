@@ -9,4 +9,5 @@ export default {
     course_icon: require('../assets/images/course-icon.png'),
     vocab_icon: require('../assets/images/vocab-icon.png'),
     voctopic_icon: require('../assets/images/voctopic-icon.png'),
+    search: require('../assets/images/search.png'),
 }

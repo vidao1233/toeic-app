@@ -7,7 +7,7 @@ import {
     Alert,
     ScrollView,
     FlatList,
-
+    TextInput
 } from "react-native"
 import { colors, icons, images, fontsizes, envPath } from "../common"
 import { VocabularyItem, Header, } from "../navigators"
@@ -35,11 +35,46 @@ function Vocabularies(props) {
                 console.error('Error fetching Vocabularies:', error);
             });
     }, []);
+    const [searchText, setSearchText] = useState('')
+    const filteredVocabs = () => vocabularies.filter(vocab => vocab.engWord.toLowerCase()
+        .includes(searchText.toLowerCase()))
     return <View style={{
         backgroundColor: colors.primary,
         flex: 100
     }}>
         <Header title={'Toeic\'s Vocabularies'} />
+        <View style={{
+            marginHorizontal: 10,
+            marginVertical: 10,
+            flexDirection: 'row',
+            alignItems: 'center',
+        }}>
+            <Image
+                source={icons.search}
+                style={{
+                    height: 30,
+                    width: 30,
+                    position: 'absolute',
+                    top: 5,
+                    left: 5
+                }}
+            />
+            <TextInput
+                autoCorrect={false}
+                onChangeText={(text) => {
+                    setSearchText(text)
+                }}
+                style={{
+                    color: colors.dark_primary,
+                    backgroundColor: 'white',
+                    height: 40,
+                    flex: 1,
+                    borderRadius: 5,
+                    opacity: 0.8,
+                    paddingStart: 40
+                }} />
+        </View>
+        <View style={{height: 120, justifyContent: 'center', alignItems: 'center'}}>
         <FlatList
             horizontal={true}
             data={vocTopics}
@@ -51,52 +86,58 @@ function Vocabularies(props) {
                     }}
                     style={{
                         justifyContent: 'center',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        height: 85,
+                        marginTop: 5
                     }}>
                     <Image
                         style={{
                             height: 70,
                             width: 70,
-                            resizeMode: 'cover',
-                            margin: 15
+                            margin: 15,
+                            top: 5
                         }}
                         source={icons.voctopic_icon} />
                     <Text
-                    numberOfLines={1}
-                    style={{
-                        width: 60,
-                        color: 'black',
-                        fontSize: fontsizes.h4,
-                        fontWeight: 'bold',                        
-                    }}>{item.name}</Text>
+                        numberOfLines={1}
+                        style={{
+                            width: 60,
+                            color: 'black',
+                            fontSize: fontsizes.h4,
+                            fontWeight: 'bold',
+                        }}>{item.name}</Text>
                 </TouchableOpacity>
             }}
             style={{
-                height: 170,
                 backgroundColor: 'white',
-                borderRadius: 10,
-                marginVertical: 10
+                marginVertical: 5
             }}>
-
         </FlatList>
-        <ScrollView>
-            {vocabularies.map(vocab => {
-                return (
-                    <View key={vocab.idVoc}>
-                        <VocabularyItem
-                            onPress={() => {
-                                Alert.alert(`Pressed word ${vocab.engWord} !`)
-                            }}
-                            topic={vocab.idTopic}
-                            engWord={vocab.engWord}
-                            pronunciation={vocab.pronunciation}
-                            wordType={vocab.wordType}
-                            meaning={vocab.meaning} />
-                    </View>)
-            })}
-        </ScrollView>
-        <View>
         </View>
+        {filteredVocabs().length > 0 ? <FlatList
+            style={{height: 150}}
+            data={filteredVocabs()}
+            keyExtractor={item => item.idVoc}
+            renderItem={({ item }) => {
+                return <VocabularyItem
+                    onPress={() => {
+                        Alert.alert(`Pressed word ${item.engWord} !`)
+                    }}
+                    topic={item.idTopic}
+                    engWord={item.engWord}
+                    pronunciation={item.pronunciation}
+                    wordType={item.wordType}
+                    meaning={item.meaning} />
+            }} /> : <View style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
+            <Text style={{
+                color: 'black',
+                fontSize: fontsizes.h3
+            }}>No word found</Text>
+        </View>}
     </View>
 }
 export default Vocabularies
