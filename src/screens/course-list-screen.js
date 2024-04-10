@@ -60,7 +60,6 @@ function CourseList(props) {
                     </View>)
             })}
         </ScrollView>
-        <Footer />
     </View>
 }
 export default CourseList

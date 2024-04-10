@@ -4,13 +4,6 @@
 
 import { AppRegistry } from 'react-native'
 import { name as appName } from './app.json'
-import {
-    Login,
-    Welcome,
-    Register,
-    CourseList,
-    Vocabularies,
-    Settings
-} from './src/screens'
+import { App } from './src/navigation';
 
-AppRegistry.registerComponent(appName, () => Settings);
+AppRegistry.registerComponent(appName, () => App);

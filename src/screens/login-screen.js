@@ -18,11 +18,15 @@ function Login(props) {
     const [errorUsername, setErrorUsername] = useState('')
     const [errorPassword, setErrorPassword] = useState('')
     //state to store email/password
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState('vidao')
+    const [password, setPassword] = useState('12345')
     const isValidationOK = () => username.length > 0 && password.length > 0
         && isValidUsername(username) == true
         && isValidPassword(password) == true
+    //navigation
+    const {navigation, route} = props
+    //function of navigate to/back
+    const {navigate, go_back} = navigation
     return <KeyboardAwareScrollView
         style={{
             flex: 100,
@@ -75,6 +79,7 @@ function Login(props) {
                         fontSize: 18
                     }}
                     placeholder="Enter your username"
+                    value={username}
                     placeholderTextColor={colors.placeHolder}
                     fontSize={18}
                     underlineColorAndroid={colors.primary}
@@ -104,6 +109,7 @@ function Login(props) {
                     }}
                     secureTextEntry={true}
                     placeholder="Enter your password"
+                    value={password}
                     placeholderTextColor={colors.placeHolder}
                     fontSize={18}
                     underlineColorAndroid={colors.primary}
@@ -122,11 +128,12 @@ function Login(props) {
             <TouchableOpacity
                 disabled={isValidationOK() == false}
                 onPress={() => {
-                    Alert.alert(`Username: ${username}, password: ${password}`)
+                    //Alert.alert(`Username: ${username}, password: ${password}`)
+                    navigate('UITab')
                 }}
                 style={{
                     backgroundColor: isValidationOK() == true
-                        ? colors.primary : colors.inactive,
+                        ? colors.dark_primary : colors.inactive,
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginTop: 10,

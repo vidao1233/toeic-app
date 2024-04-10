@@ -138,7 +138,6 @@ function Vocabularies(props) {
                 fontSize: fontsizes.h3
             }}>No word found</Text>
         </View>}
-        <Footer/>
     </View>
 }
 export default Vocabularies

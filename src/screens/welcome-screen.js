@@ -14,14 +14,18 @@ function Welcome(props) {
     //state => when a state is changed => UI is reload
     const [actions, setAction] = useState([
         {
-            name: 'REGISTER',
+            name: 'Register',
             isSelected: true,
         },
         {
-            name: 'LOGIN',
+            name: 'Login',
             isSelected: false,
         },
     ])
+    //navigation
+    const {navigation, route} = props
+    //function of navigate to/back
+    const {navigate, go_back} = navigation
     return <View style={{
         backgroundColor: 'white',
         flex: 100
@@ -109,6 +113,7 @@ function Welcome(props) {
                                     isSelected: eachAction.name == action.name
                                 }
                             }))
+                            navigate(`${action.name}`)
                         }}
                         title={action.name}
                         isSelected={action.isSelected}

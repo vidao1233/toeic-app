@@ -337,7 +337,6 @@ function Settings(props) {
                 marginHorizontal: 15
             }} />
         </ScrollView>
-        <Footer />
     </View>
 }
 export default Settings
