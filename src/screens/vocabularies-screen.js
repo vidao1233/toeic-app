@@ -10,7 +10,7 @@ import {
     TextInput
 } from "react-native"
 import { colors, icons, images, fontsizes, envPath } from "../common"
-import { VocabularyItem, Header, } from "../navigators"
+import { VocabularyItem, Header, Footer } from "../components"
 
 function Vocabularies(props) {
     const [vocTopics, setVoctopics] = useState([])
@@ -138,6 +138,7 @@ function Vocabularies(props) {
                 fontSize: fontsizes.h3
             }}>No word found</Text>
         </View>}
+        <Footer/>
     </View>
 }
 export default Vocabularies

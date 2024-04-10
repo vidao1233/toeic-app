@@ -10,9 +10,9 @@ import {
     KeyboardAvoidingView,
     ScrollView
 } from "react-native"
-import { colors, icons, images, fontsizes, envPath } from "../common"
+import { colors, icons, images, fontsizes, envPath, styles } from "../common"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { CourseItem, Header,  } from "../navigators"
+import { CourseItem, Header, Footer } from "../components"
 
 function CourseList(props) {
     const [courses, setCourses] = useState([])
@@ -31,23 +31,36 @@ function CourseList(props) {
         backgroundColor: colors.primary,
         flex: 100
     }}>
-        <Header title={'Courses Of VictoryU'}/>
-        <View style={{ height: 120}}></View>
+        <Header title={'Courses Of VictoryU'} />
+        <View style={{
+            height: 120,
+            alignItems: 'center',
+            justifyContent: 'center'
+        }}>
+            <Text
+                numberOfLines={2}
+                style={{
+                    width: 260,
+                    color: colors.dark_primary,
+                    fontSize: 25,
+                    fontWeight: 'bold',
+                    textAlign: 'center'
+                }}>CHOOSE A COURSE TO START !</Text>
+        </View>
         <ScrollView>
             {courses.map(course => {
                 return (
                     <View key={course.idCourse}>
-                        <CourseItem 
-                        onPress={() => {
-                            Alert.alert(`Pressed course's name ${course.name} !`)
-                        }}
-                        name={course.name} 
-                        description={course.description} />
+                        <CourseItem
+                            onPress={() => {
+                                Alert.alert(`Pressed course's name ${course.name} !`)
+                            }}
+                            name={course.name}
+                            description={course.description} />
                     </View>)
             })}
         </ScrollView>
-        <View>
-        </View>
+        <Footer />
     </View>
 }
 export default CourseList

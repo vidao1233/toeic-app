@@ -10,6 +10,7 @@ import {
     Register,
     CourseList,
     Vocabularies,
-} from './src/components'
+    Settings
+} from './src/screens'
 
-AppRegistry.registerComponent(appName, () => Vocabularies);
+AppRegistry.registerComponent(appName, () => Settings);

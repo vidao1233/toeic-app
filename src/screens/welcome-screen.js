@@ -8,7 +8,7 @@ import {
     Alert
 } from "react-native"
 import { icons, images, colors } from "../common/index"
-import { UIButton } from "../navigators"
+import { UIButton } from "../components"
 
 function Welcome(props) {
     //state => when a state is changed => UI is reload

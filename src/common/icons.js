@@ -1,3 +1,4 @@
+
 export default {
     logo: require('../assets/images/logo.png'),
     ask_icon: require('../assets/images/ask-icon.png'),
@@ -10,4 +11,20 @@ export default {
     vocab_icon: require('../assets/images/vocab-icon.png'),
     voctopic_icon: require('../assets/images/voctopic-icon.png'),
     search: require('../assets/images/search.png'),
+    home: require('../assets/images/home.png'),
+    online_course: require('../assets/images/online-course.png'),
+    vocabularies: require('../assets/images/dictionary.png'),
+    test: require('../assets/images/test.png'),
+    profile: require('../assets/images/profile.png'),
+    setting: require('../assets/images/setting.png'),
+    web: require('../assets/images/web.png'),
+    right_arrow: require('../assets/images/right-arrow.png'),
+    lamp: require('../assets/images/lamp.png'),
+    night: require('../assets/images/night.png'),
+    padlock: require('../assets/images/padlock.png'),
+    share: require('../assets/images/share.png'),
+    bell: require('../assets/images/bell.png'),
+    information: require('../assets/images/information.png'),
+    term_policy: require('../assets/images/terms-and-conditions.png'),
+    logout: require('../assets/images/logout.png'),
 }

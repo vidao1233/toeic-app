@@ -1,13 +1,13 @@
-import Welcome from "./welcome-screen";
-import Login from "./login-screen";
-import Register from "./register-screen";
-import CourseList from "./course-list-screen";
-import Vocabularies from "./vocabularies-screen";
+import UIButton from "./ui_button";
+import CourseItem from "./course_item";
+import Header from "./header";
+import VocabularyItem from "./vocabulary_item";
+import Footer from "./footer";
 
-export {
-    Welcome,
-    Login,
-    Register,
-    CourseList,
-    Vocabularies,
+export{
+    UIButton,
+    CourseItem, 
+    Header,
+    VocabularyItem,
+    Footer,
 }
