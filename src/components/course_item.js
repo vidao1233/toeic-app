@@ -18,19 +18,22 @@ function CourseItem(props) {
         <TouchableOpacity
             onPress={onPress}
             style={{
-                height: 150,
-                paddingTop: 20,
+                height: 140,
+                width: 350,
                 paddingStart: 10,
                 flexDirection: 'row',
                 backgroundColor: 'white',
                 borderRadius: 10,
                 marginHorizontal: 10,
-                marginVertical: 10
+                marginVertical: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 5
             }}>
             <Image
                 style={{
-                    height: 100,
-                    width: 100,
+                    height: 70,
+                    width: 70,
                     resizeMode: 'cover'
                 }}
                 source={icons.course_icon} />
@@ -41,12 +44,16 @@ function CourseItem(props) {
                 <Text style={{
                     color: 'black',
                     fontSize: fontsizes.h3,
-                }}>Name: {`${name}`.toUpperCase()}</Text>
+                    fontWeight: 'bold'
+                }}>{`${name}`.toUpperCase()}</Text>
                 <View style={{ height: 1, backgroundColor: 'black' }}></View>
-                <Text style={{
-                    color: 'black',
-                    fontSize: fontsizes.h3,
-                }}>Description: {description}</Text>
+                <Text
+                    numberOfLines={2}
+                    style={{
+                        width: 250,
+                        color: 'black',
+                        fontSize: fontsizes.h4,
+                    }}>{description}</Text>
             </View>
         </TouchableOpacity>)
 }

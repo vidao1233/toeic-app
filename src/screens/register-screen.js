@@ -27,6 +27,10 @@ function Register(props) {
     const isValidationOK = () => username.length > 0 && password.length > 0
         && isValidUsername(username) == true
         && isValidPassword(password) == true
+    //navigation
+    const {navigation, route} = props
+    //function of navigate to/back
+    const {navigate, go_back} = navigation
     return <KeyboardAwareScrollView
         style={{
             flex: 100,
@@ -178,13 +182,12 @@ function Register(props) {
                 }}>{errorPassword}</Text>
             </View>
             <TouchableOpacity
-                disabled={isValidationOK() == false}
+                //disabled={isValidationOK() == false}
                 onPress={() => {
-                    Alert.alert(`Username: ${username}, password: ${password}`)
+                    navigate("Login")
                 }}
                 style={{
-                    backgroundColor: isValidationOK() == true
-                        ? colors.primary : colors.inactive,
+                    backgroundColor: colors.primary,
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginTop: 10,

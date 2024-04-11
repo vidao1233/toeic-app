@@ -5,12 +5,10 @@ import 'react-native-gesture-handler'
 import { View, Image } from 'react-native'
 import { fontsizes, colors, icons } from '../common'
 import {
-    Login,
-    Welcome,
-    Register,
     CourseList,
     Vocabularies,
-    Settings
+    Settings,
+    Home
 } from '../screens'
 const Tab = createBottomTabNavigator()
 const screenOptions = ({ route }) => ({
@@ -26,7 +24,8 @@ const screenOptions = ({ route }) => ({
         let screenName = route.name
         const iconName = screenName == "Vocabularies" ? icons.vocabularies :
             (screenName == "CourseList" ? icons.online_course : (
-                screenName == "Settings" ? icons.setting : ''
+                screenName == "Settings" ? icons.setting : (
+                    screenName == "Home" ? icons.home :'')
             ))
         return <Image source={iconName}
             style={{
@@ -41,6 +40,17 @@ const screenOptions = ({ route }) => ({
 function UITab(props) {
     return <Tab.Navigator
         screenOptions={screenOptions}>
+        <Tab.Screen
+            name={"Home"}
+            component={Home}
+            options={{
+                tabBarLabel: 'Home',
+                tabBarLabelStyle: {
+                    fontSize: fontsizes.h4,
+                    marginTop: 10
+                }
+            }}
+        />
         <Tab.Screen
             name={"Vocabularies"}
             component={Vocabularies}

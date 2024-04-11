@@ -12,7 +12,7 @@ import {
 import { colors, icons, images, fontsizes, envPath } from "../common"
 import { VocabularyItem, Header, Footer } from "../components"
 
-function Vocabularies(props) {
+function Home(props) {
     const [vocTopics, setVoctopics] = useState([])
     useEffect(() => {
         fetch(`${envPath.domain_url}VocTopic/GetAllVocTopic`)
@@ -140,4 +140,4 @@ function Vocabularies(props) {
         </View>}
     </View>
 }
-export default Vocabularies
+export default Home

@@ -27,4 +27,6 @@ export default {
     information: require('../assets/images/information.png'),
     term_policy: require('../assets/images/terms-and-conditions.png'),
     logout: require('../assets/images/logout.png'),
+    goal: require('../assets/images/goal.png'),
+    profile_avatar: require('../assets/images/profile-avatar.png'),
 }

@@ -16,15 +16,23 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { CourseItem, Header, Footer } from "../components"
 
 function Settings(props) {
+    //navigation
+    const { navigation, route } = props
+    //function of navigate to/back
+    const { navigate, go_back } = navigation
     const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     return <View style={{
         flex: 1,
         backgroundColor: 'white',
     }}>
         <Header title='Settings System' />
         <ScrollView>
-            <TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    navigate("Profile")
+                }}
+            >
                 <View style={{
                     flexDirection: 'row',
                     paddingVertical: 20,
