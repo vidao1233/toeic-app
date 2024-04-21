@@ -42,7 +42,7 @@ function Home(props) {
         backgroundColor: colors.primary,
         flex: 100
     }}>
-        <Header title={'Toeic\'s Vocabularies'} />
+        <Header title={'English Center'} />
         <View style={{
             marginHorizontal: 10,
             marginVertical: 10,

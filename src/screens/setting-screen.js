@@ -9,7 +9,8 @@ import {
     TextInput,
     KeyboardAvoidingView,
     ScrollView,
-    Switch
+    Switch,
+    Linking
 } from "react-native"
 import { colors, icons, images, fontsizes, envPath, styles } from "../common"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -58,7 +59,10 @@ function Settings(props) {
                 height: 1,
                 marginHorizontal: 15
             }} />
-            <TouchableOpacity>
+            <TouchableOpacity 
+                onPress={()=>{
+                    navigate("ChangePassword")
+                }}>
                 <View style={{
                     flexDirection: 'row',
                     paddingVertical: 20,
@@ -188,7 +192,7 @@ function Settings(props) {
                 height: 1,
                 marginHorizontal: 15
             }} />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => Linking.openURL('https://www.facebook.com/victoryu.toeic')}>
                 <View style={{
                     flexDirection: 'row',
                     paddingVertical: 20,
