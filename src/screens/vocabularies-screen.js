@@ -11,8 +11,10 @@ import {
 } from "react-native"
 import { colors, icons, images, fontsizes, envPath } from "../common"
 import { VocabularyItem, Header, Footer } from "../components"
+import Tts from 'react-native-tts'
 
 function Vocabularies(props) {
+
     const [vocTopics, setVoctopics] = useState([])
     useEffect(() => {
         fetch(`${envPath.domain_url}VocTopic/GetAllVocTopic`)
@@ -121,7 +123,7 @@ function Vocabularies(props) {
             renderItem={({ item }) => {
                 return <VocabularyItem
                     onPress={() => {
-                        Alert.alert(`Pressed word ${item.engWord} !`)
+                        Tts.speak(item.engWord);
                     }}
                     topic={item.idTopic}
                     engWord={item.engWord}

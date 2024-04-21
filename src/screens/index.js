@@ -8,6 +8,7 @@ import LessonByCourse from "./lession-screen";
 import Profile from "./profile-screen";
 import LessonContent from "./lesson-content";
 import Home from "./home-screen";
+import ChangePassword from "./change-password-screen";
 
 export {
     Welcome,
@@ -19,5 +20,6 @@ export {
     LessonByCourse,
     Profile,
     LessonContent,
-    Home
+    Home,
+    ChangePassword
 }

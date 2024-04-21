@@ -10,7 +10,8 @@ import {
     Settings,
     Profile,
     LessonContent,
-    Home
+    Home,
+    ChangePassword
 } from '../screens'
 import UITab from './UITab'
 
@@ -26,6 +27,7 @@ function App(props) {
             <Stack.Screen name={"Login"} component={Login}/>
             <Stack.Screen name={"Register"} component={Register}/>
             <Stack.Screen name={"Profile"} component={Profile}/>
+            <Stack.Screen name={"ChangePassword"} component={ChangePassword}/>
             <Stack.Screen name={"LessonContent"} component={LessonContent}/>
             <Stack.Screen name={"UITab"} component={UITab}/>                
         </Stack.Navigator>

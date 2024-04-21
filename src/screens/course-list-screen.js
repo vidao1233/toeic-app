@@ -54,9 +54,12 @@ function CourseList(props) {
         <View key={item.idLesson}>
             <LessonList
                 onPress={() => {
-                    navigate('LessonContent', 
-                    { title: item.title, 
-                        content: item.content })
+                    navigate('LessonContent',
+                        {
+                            title: item.title,
+                            content: item.content,
+                            id: item.idLesson
+                        })
                 }}
                 title={item.title} />
         </View>);
@@ -71,9 +74,9 @@ function CourseList(props) {
                 description={item.description} />
         </View>);
     //navigation
-    const {navigation, route} = props
+    const { navigation, route } = props
     //function of navigate to/back
-    const {navigate, go_back} = navigation
+    const { navigate, go_back } = navigation
     return <View style={{
         backgroundColor: colors.primary,
         flex: 1,
