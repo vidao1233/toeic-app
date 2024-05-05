@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import {
     Text,
     View,
     Image,
-    ImageBackground,
-    TouchableOpacity,
-    Alert,
-    TextInput,
-    KeyboardAvoidingView,
-    ScrollView
 } from "react-native"
-import { colors, icons, images, fontsizes, envPath } from "../common"
+import { colors, icons, } from "../common"
 
 function Header(props){
     const{title} = props

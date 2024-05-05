@@ -9,6 +9,7 @@ import Profile from "./profile-screen";
 import LessonContent from "./lesson-content";
 import Home from "./home-screen";
 import ChangePassword from "./change-password-screen";
+import TestList from "./test-list-screen";
 
 export {
     Welcome,
@@ -21,5 +22,6 @@ export {
     Profile,
     LessonContent,
     Home,
-    ChangePassword
+    ChangePassword,
+    TestList
 }
