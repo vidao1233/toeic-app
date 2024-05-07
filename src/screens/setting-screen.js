@@ -1,20 +1,16 @@
-import React, { useState, useEffect, Icon } from "react"
+import React, { useState, useEffect} from "react"
 import {
     Text,
     View,
     Image,
-    ImageBackground,
     TouchableOpacity,
-    Alert,
-    TextInput,
-    KeyboardAvoidingView,
     ScrollView,
     Switch,
     Linking
 } from "react-native"
-import { colors, icons, images, fontsizes, envPath, styles } from "../common"
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { CourseItem, Header, Footer } from "../components"
+import { colors, icons, fontsizes,  } from "../common"
+import { Header } from "../components"
+import {removeJwtToken} from "../untils/jwt-storage"
 
 function Settings(props) {
     //navigation
@@ -322,7 +318,11 @@ function Settings(props) {
                 height: 1,
                 marginHorizontal: 15
             }} />
-            <TouchableOpacity>
+            <TouchableOpacity 
+                onPress={()=>{
+                    removeJwtToken()
+                    navigate("Welcome")
+                }}>
                 <View style={{
                     flexDirection: 'row',
                     paddingVertical: 20,

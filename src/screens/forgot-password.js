@@ -259,9 +259,7 @@ function ForgotPassword(props) {
         </View>
         <TouchableOpacity
             disabled={!isValidPassword(newPass) && !isValidPassword(confirmPass)}
-          onPress={() => {
-            Alert.alert(`Update success !`);
-          }}
+          onPress={handleForgotPass()}
           style={{
             backgroundColor: colors.primary,
             justifyContent: 'center',
