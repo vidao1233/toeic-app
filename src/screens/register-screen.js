@@ -9,7 +9,7 @@ import {
     TextInput,
     KeyboardAvoidingView
 } from "react-native"
-import { colors, icons, images, fontsizes } from "../common"
+import { colors, icons, images, fontsizes, envPath } from "../common"
 import { isValidUsername, isValidPassword, isValidFullname, isValidEmail } from "../untils/validations"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
@@ -27,6 +27,43 @@ function Register(props) {
     const isValidationOK = () => username.length > 0 && password.length > 0
         && isValidUsername(username) == true
         && isValidPassword(password) == true
+
+        const handleRegister = async () => {
+            if (!isValidationOK()) {
+              return;
+            }
+        
+            try {
+              const response = await fetch(`${envPath.domain_url}Authen/Register`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                  fullname: fullname,
+                  username: username, 
+                  password: password ,
+                  email: email
+                })
+              });
+        
+              const responseData = await response.json();
+              console.log(responseData);
+        
+              if (response.ok) {
+                // Xử lý dữ liệu trả về nếu cần
+                navigate('Login')
+              } else {
+                // Xử lý lỗi nếu cần
+                console.error('Request failed with status:', response.status);
+                Alert.alert('Login failed. Please try again.');
+              }
+            } catch (error) {
+              // Xử lý lỗi nếu có
+              console.error('Request failed:', error);
+              Alert.alert('An error occurred. Please try again later.');
+            }
+          };
     //navigation
     const {navigation, route} = props
     //function of navigate to/back
@@ -62,7 +99,7 @@ function Register(props) {
             />
         </View>
         <View style={{
-            height: 460,
+            height: 485,
             backgroundColor: 'white',
             marginHorizontal: 20,
             borderRadius: 20
@@ -182,12 +219,10 @@ function Register(props) {
                 }}>{errorPassword}</Text>
             </View>
             <TouchableOpacity
-                //disabled={isValidationOK() == false}
-                onPress={() => {
-                    navigate("Login")
-                }}
+                disabled={!isValidationOK()}
+                onPress={handleRegister}
                 style={{
-                    backgroundColor: colors.primary,
+                    backgroundColor: isValidationOK() ? colors.primary : colors.inactive,
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginTop: 10,
@@ -201,6 +236,25 @@ function Register(props) {
                     color: 'white'
                 }}
                 >Register</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {                    
+                    navigate('Login')
+                }}
+                style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    marginTop: 2
+                }}
+            >
+                <Text style={{
+                    padding: 5,
+                    fontSize: 15,
+                    color: colors.primary,
+                    alignSelf: 'center'
+                }}
+                >Already have an account? Login now !</Text>
             </TouchableOpacity>
         </View>
         <View

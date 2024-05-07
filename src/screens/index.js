@@ -10,6 +10,7 @@ import LessonContent from "./lesson-content";
 import Home from "./home-screen";
 import ChangePassword from "./change-password-screen";
 import TestList from "./test-list-screen";
+import ForgotPassword from "./forgot-password";
 
 export {
     Welcome,
@@ -24,4 +25,5 @@ export {
     Home,
     ChangePassword,
     TestList,
+    ForgotPassword,
 }

@@ -8,7 +8,8 @@ import {
     CourseList,
     Vocabularies,
     Settings,
-    Home
+    Home,
+    TestList
 } from '../screens'
 const Tab = createBottomTabNavigator()
 const screenOptions = ({ route }) => ({
@@ -25,7 +26,9 @@ const screenOptions = ({ route }) => ({
         const iconName = screenName == "Vocabularies" ? icons.vocabularies :
             (screenName == "CourseList" ? icons.online_course : (
                 screenName == "Settings" ? icons.setting : (
-                    screenName == "Home" ? icons.home :'')
+                    screenName == "Home" ? icons.home :(
+                        screenName == "TestList" ? icons.test:''
+                    ))
             ))
         return <Image source={iconName}
             style={{
@@ -67,6 +70,17 @@ function UITab(props) {
             component={CourseList}
             options={{
                 tabBarLabel: 'Courses',
+                tabBarLabelStyle: {
+                    fontSize: fontsizes.h4,
+                    marginTop: 10
+                }
+            }}
+        />
+        <Tab.Screen
+            name={"TestList"}
+            component={TestList}
+            options={{
+                tabBarLabel: 'Tests',
                 tabBarLabelStyle: {
                     fontSize: fontsizes.h4,
                     marginTop: 10
