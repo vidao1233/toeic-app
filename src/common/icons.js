@@ -29,4 +29,6 @@ export default {
     logout: require('../assets/images/logout.png'),
     goal: require('../assets/images/goal.png'),
     profile_avatar: require('../assets/images/profile-avatar.png'),
+    send: require('../assets/images/send.png'),
+    forgot_password: require('../assets/images/forgot-password.png'),
 }

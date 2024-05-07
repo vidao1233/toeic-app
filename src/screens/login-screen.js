@@ -3,26 +3,65 @@ import {
     Text,
     View,
     Image,
-    ImageBackground,
     TouchableOpacity,
     Alert,
     TextInput,
-    KeyboardAvoidingView
 } from "react-native"
-import { colors, icons, images } from "../common"
+import { colors, icons, images, envPath } from "../common"
 import { isValidUsername, isValidPassword } from "../untils/validations"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {getJwtToken, storeJwtToken} from "../untils/jwt-storage"
 
 function Login(props) {
     //state to validate
     const [errorUsername, setErrorUsername] = useState('')
     const [errorPassword, setErrorPassword] = useState('')
     //state to store email/password
-    const [username, setUsername] = useState('vidao')
-    const [password, setPassword] = useState('12345')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+
     const isValidationOK = () => username.length > 0 && password.length > 0
         && isValidUsername(username) == true
         && isValidPassword(password) == true
+
+    const handleLogin = async () => {
+        if (!isValidationOK()) {
+          return;
+        }
+    
+        try {
+          const response = await fetch(`${envPath.domain_url}Authen/Login`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              username: username, 
+              password: password 
+            })
+          });
+    
+          const responseData = await response.json();
+          console.log(responseData);
+    
+          if (response.ok) {
+            // Xử lý dữ liệu trả về nếu cần
+            storeJwtToken(responseData.token)
+            const jwt = await getJwtToken()
+            console.log(jwt)
+            navigate('UITab')
+          } else {
+            // Xử lý lỗi nếu cần
+            console.error('Request failed with status:', response.status);
+            Alert.alert('Login failed. Please try again.');
+          }
+        } catch (error) {
+          // Xử lý lỗi nếu có
+          console.error('Request failed:', error);
+          Alert.alert('An error occurred. Please try again later.');
+        }
+      };
+    
     //navigation
     const {navigation, route} = props
     //function of navigate to/back
@@ -127,10 +166,7 @@ function Login(props) {
         >
             <TouchableOpacity
                 disabled={isValidationOK() == false}
-                onPress={() => {
-                    //Alert.alert(`Username: ${username}, password: ${password}`)
-                    navigate('UITab')
-                }}
+                onPress={handleLogin}
                 style={{
                     backgroundColor: isValidationOK() == true
                         ? colors.dark_primary : colors.inactive,
@@ -149,8 +185,8 @@ function Login(props) {
                 >Login</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => {
-                    Alert.alert('Register pressed!')
+                onPress={() => {                    
+                    navigate('Register')
                 }}
                 style={{
                     justifyContent: 'center',
@@ -165,7 +201,7 @@ function Login(props) {
                     color: colors.primary,
                     alignSelf: 'center'
                 }}
-                >New user? Register now</Text>
+                >New user? Register now !</Text>
             </TouchableOpacity>
         </View>
         <View

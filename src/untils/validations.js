@@ -7,6 +7,9 @@ export const isValidFullname = (stringFullname) => stringFullname != ''
 //validate password
 export const isValidPassword = (stringPassword) => stringPassword.length >= 5
 
+//compare password
+export const isValidPasswordConfirm = (newPass, confirmPass) => newPass.length >= 5 && newPass == confirmPass
+
 //validate email
 export const isValidEmail = (stringEmail) => {
     const emailRegex = /^(?=.{6,80}$)([A-Za-z0-9_\-]+[.]?)*[A-Za-z0-9_\-]+@([A-Za-z0-9_\-]+)\.([A-Za-z0-9_\-]+[.]?)*([A-Za-z0-9_\-]*[A-Za-z][A-Za-z])$/i;
