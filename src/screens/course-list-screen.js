@@ -2,18 +2,9 @@ import React, { useState, useEffect } from "react"
 import {
     Text,
     View,
-    Image,
-    ImageBackground,
-    TouchableOpacity,
-    Alert,
-    TextInput,
-    KeyboardAvoidingView,
-    ScrollView,
     FlatList,
-    LessonContent
 } from "react-native"
-import { colors, icons, images, fontsizes, envPath, styles } from "../common"
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { colors, icons, images, fontsizes, envPath } from "../common"
 import { CourseItem, Header, Footer, LessonList } from "../components"
 
 function CourseList(props) {

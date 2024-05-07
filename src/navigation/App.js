@@ -5,13 +5,12 @@ import {
     Welcome,
     Login,
     Register,
-    CourseList,
-    Vocabularies,
-    Settings,
     Profile,
     LessonContent,
     Home,
-    ChangePassword
+    ChangePassword,
+    TestList,
+    Vocabularies
 } from '../screens'
 import UITab from './UITab'
 
@@ -19,7 +18,7 @@ const Stack = createNativeStackNavigator()
 
 function App(props) {
     return <NavigationContainer>
-        <Stack.Navigator initialRouteName='Welcome' screenOptions={{
+        <Stack.Navigator initialRouteName='Vocabularies' screenOptions={{
             headerShown: false
         }}>
             <Stack.Screen name={"Welcome"} component={Welcome}/>
@@ -29,7 +28,9 @@ function App(props) {
             <Stack.Screen name={"Profile"} component={Profile}/>
             <Stack.Screen name={"ChangePassword"} component={ChangePassword}/>
             <Stack.Screen name={"LessonContent"} component={LessonContent}/>
-            <Stack.Screen name={"UITab"} component={UITab}/>                
+            <Stack.Screen name={"TestList"} component={TestList}/>
+            <Stack.Screen name={"UITab"} component={UITab}/>
+            <Stack.Screen name={"Vocabularies"} component={Vocabularies}/>                
         </Stack.Navigator>
     </NavigationContainer>
 }

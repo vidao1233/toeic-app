@@ -4,6 +4,7 @@ import Header from "./header";
 import VocabularyItem from "./vocabulary_item";
 import Footer from "./footer";
 import LessonList from "./lesson_list";
+import TestItem from "./test_item";
 
 export{
     UIButton,
@@ -12,4 +13,5 @@ export{
     VocabularyItem,
     Footer,
     LessonList,
+    TestItem,
 }

@@ -1,51 +1,120 @@
-import React, { useState, useEffect } from "react"
+import React, {useState, useEffect} from 'react';
 import {
-    Text,
-    View,
-    Image,
-    TouchableOpacity,
-    Alert,
-    ScrollView,
-    FlatList,
-    TextInput
-} from "react-native"
-import { colors, icons, images, fontsizes, envPath } from "../common"
-import { VocabularyItem, Header, Footer } from "../components"
-import Tts from 'react-native-tts'
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  FlatList,
+  TextInput,
+} from 'react-native';
+import {colors, icons, images, fontsizes, envPath} from '../common';
+import {VocabularyItem, Header, Footer} from '../components';
+import Tts from 'react-native-tts';
 
 function Vocabularies(props) {
+  const [vocTopics, setVoctopics] = useState([]);
+  useEffect(() => {
+    fetch(`${envPath.domain_url}VocTopic/GetAllVocTopic`)
+      .then(response => response.json())
+      .then(data => {
+        setVoctopics(data);
+      })
+      .catch(error => {
+        console.error('Error fetching VocTopic:', error);
+      });
+  }, []);
 
-    const [vocTopics, setVoctopics] = useState([])
-    useEffect(() => {
-        fetch(`${envPath.domain_url}VocTopic/GetAllVocTopic`)
-            .then(response => response.json())
-            .then(data => {
-                setVoctopics(data);
-            })
-            .catch(error => {
-                console.error('Error fetching VocTopic:', error);
-            });
-    }, []);
-    const [vocabularies, setVocabularies] = useState([])
-    useEffect(() => {
-        fetch(`${envPath.domain_url}Vocabulary/GetAllVocabularies`)
-            .then(response => response.json())
-            .then(data => {
-                setVocabularies(data);
-            })
-            .catch(error => {
-                console.error('Error fetching Vocabularies:', error);
-            });
-    }, []);
-    const [searchText, setSearchText] = useState('')
-    const filteredVocabs = () => vocabularies.filter(vocab => vocab.engWord.toLowerCase()
-        .includes(searchText.toLowerCase()))
-    return <View style={{
+  const [vocabularies, setVocabularies] = useState([]);
+  useEffect(() => {
+    fetch(`${envPath.domain_url}Vocabulary/GetAllVocabularies`)
+      .then(response => response.json())
+      .then(data => {
+        setVocabularies(data);
+      })
+      .catch(error => {
+        console.error('Error fetching Vocabularies:', error);
+      });
+  }, []);
+
+  const [searchText, setSearchText] = useState('');
+  const [selectedLetter, setSelectedLetter] = useState(null);
+
+  const filteredVocabs = () => {
+    let filtered = vocabularies;
+    if (selectedLetter) {
+      filtered = vocabularies.filter(
+        vocab => vocab.engWord.charAt(0).toUpperCase() === selectedLetter,
+      );
+    }
+    return filtered.filter(vocab =>
+      vocab.engWord.toLowerCase().includes(searchText.toLowerCase()),
+    );
+  };
+
+  const groupVocabulariesByAlphabet = () => {
+    const groupedVocabularies = {};
+    for (let i = 65; i <= 90; i++) {
+      const letter = String.fromCharCode(i);
+      groupedVocabularies[letter] = vocabularies.filter(
+        vocab => vocab.engWord.charAt(0).toUpperCase() === letter,
+      );
+    }
+    return groupedVocabularies;
+  };
+
+  const renderVocabularyItem = ({item}) => (
+    <VocabularyItem
+      onPress={() => {
+        Tts.speak(item.engWord);
+      }}
+      topic={item.idTopic}
+      engWord={item.engWord}
+      pronunciation={item.pronunciation}
+      wordType={item.wordType}
+      meaning={item.meaning}
+    />
+  );
+
+  const renderAlphabetSection = () => {
+    const groupedVocabularies = groupVocabulariesByAlphabet();
+    return (
+      <FlatList
+        horizontal
+        data={Object.keys(groupedVocabularies)}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            onPress={() => setSelectedLetter(item)}
+            style={{
+              paddingVertical: 5,
+              paddingHorizontal: 10,
+              backgroundColor:
+                selectedLetter === item ? colors.primary : colors.light_gray,
+            }}>
+            <Text
+              style={{
+                fontSize: fontsizes.h3,
+                fontWeight: 'bold',
+                color: selectedLetter === item ? 'white' : 'black',
+              }}>
+              {item}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
+    );
+  };
+
+  return (
+    <View
+      style={{
+        flex: 1,
         backgroundColor: colors.primary,
-        flex: 100
-    }}>
-        <Header title={'Toeic\'s Vocabularies'} />
-        <View style={{
+      }}>
+      <Header title={"Toeic's Vocabularies"} />
+      <View style={{
             marginHorizontal: 10,
             marginVertical: 10,
             flexDirection: 'row',
@@ -76,7 +145,7 @@ function Vocabularies(props) {
                     paddingStart: 40
                 }} />
         </View>
-        <View style={{ height: 120, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ height: 120, justifyContent: 'center', alignItems: 'center' }}>
             <FlatList
                 horizontal={true}
                 data={vocTopics}
@@ -116,21 +185,14 @@ function Vocabularies(props) {
                 }}>
             </FlatList>
         </View>
+      <View style={{flex: 1}}>
+        <View style={{}}>{renderAlphabetSection()}</View>
         {filteredVocabs().length > 0 ? <FlatList
-            style={{ height: 150 }}
             data={filteredVocabs()}
-            keyExtractor={item => item.idVoc}
-            renderItem={({ item }) => {
-                return <VocabularyItem
-                    onPress={() => {
-                        Tts.speak(item.engWord);
-                    }}
-                    topic={item.idTopic}
-                    engWord={item.engWord}
-                    pronunciation={item.pronunciation}
-                    wordType={item.wordType}
-                    meaning={item.meaning} />
-            }} /> : <View style={{
+            renderItem={renderVocabularyItem}
+            keyExtractor={(item, index) => index.toString()}
+            style={{maxHeight: '100%'}}
+          /> : <View style={{
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -140,6 +202,8 @@ function Vocabularies(props) {
                 fontSize: fontsizes.h3
             }}>No word found</Text>
         </View>}
+      </View>
     </View>
+  );
 }
-export default Vocabularies
+export default Vocabularies;
