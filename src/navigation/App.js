@@ -21,7 +21,7 @@ const Stack = createNativeStackNavigator()
 
 function App(props) {
     return <NavigationContainer>
-        <Stack.Navigator initialRouteName='Quiz' screenOptions={{
+        <Stack.Navigator initialRouteName='UITab' screenOptions={{
             headerShown: false
         }}>
             <Stack.Screen name={"Welcome"} component={Welcome}/>

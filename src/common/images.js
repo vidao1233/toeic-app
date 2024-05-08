@@ -8,5 +8,6 @@ export default{
     favicon: require('../assets/images/favicon.png'),
     icon: require('../assets/images/icon.png'),
     spalsh: require('../assets/images/splash.png'),
+    firework: require('../assets/images/firework.png'),
     
 }
