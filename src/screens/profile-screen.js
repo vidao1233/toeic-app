@@ -206,7 +206,7 @@ function Profile(props) {
             Enable TwoFA:
           </Text>
           <Switch
-          style={{marginTop: 10, marginLeft: 90, width: 120,}}
+          style={{marginTop: 40, marginLeft: 90, width: 120,}}
             trackColor={{false: colors.inactive, true: colors.dark_primary}}
             thumbColor={isEnabled ? 'white' : colors.inactive}
             ios_backgroundColor="#3e3e3e"
@@ -215,9 +215,11 @@ function Profile(props) {
           />          
         </View>
         <View style={{width: 280, backgroundColor: colors.primary, height: 2, marginLeft: 33}} />
+        <View style={{backgroundColor: colors.primary, marginTop: 25, height: 53, width: 290, marginHorizontal: 33}}>
         <View style={style.dropdownContainer}>
           <Text style={style.dropdownLabel}>Gender:</Text>
           <Picker
+            dropdownIconColor={colors.dark_primary}
             selectedValue={selectedGender}
             onValueChange={itemValue => setSelectedGender(itemValue)}
             style={style.dropdown}>
@@ -230,6 +232,7 @@ function Profile(props) {
               />
             ))}
           </Picker>
+        </View>
         </View>
 
         <TouchableOpacity
@@ -282,24 +285,22 @@ const style = StyleSheet.create({
     alignSelf: 'center',
   },
   dropdownContainer: {
-    marginHorizontal: 30,
-    marginTop: 10,
-    backgroundColor: colors.primary,
-    borderRadius: 15,
+    marginBottom: 2,
+    backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',
-    height: 50,
+    height: 51,
+    width: 311.5,
   },
   dropdownLabel: {
     fontSize: fontsizes.h3,
-    color: colors.dark_primary,
-    marginLeft: 10,
+    color: colors.primary,
   },
   dropdown: {
-    color: 'white',
+    color: 'black',
     fontSize: fontsizes.h3,
     height: 40,
-    width: 240,
+    width: 250,
     marginLeft: 5,
     marginRight: 30,
   },

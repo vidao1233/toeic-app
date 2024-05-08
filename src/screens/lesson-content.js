@@ -4,11 +4,13 @@ import {
     ScrollView,
     TouchableOpacity,
     Text,
+    Image
 } from "react-native"
 import { colors, icons, images, fontsizes, envPath, } from "../common"
 import { CourseItem, Header, Footer, LessonList } from "../components"
 import { WebView } from 'react-native-webview'
 import HTMLView from 'react-native-htmlview'
+import Tts from 'react-native-tts';
 
 function LessonContent(props) {
     const { title, content, idLesson } = props.route.params;
@@ -20,10 +22,26 @@ const { navigate, go_back } = navigation
         <View style={{ flex: 1 }}>
             <Header title={title} />
             <ScrollView style={{
-                backgroundColor: "white",
-                flex: 1,
+                //backgroundColor: "black",
+                marginHorizontal: 15,
             }}>
+                {/* <TouchableOpacity
+                onPress={() => {
+                    Tts.speak(content);
+                  }}>
+                <Image
+                source={icons.speaker}
+                style={{
+                    marginHorizontal: 10,
+                    marginVertical: 5,
+                    width: 48,
+                    height: 48,
+                    tintColor: 'white'
+                }}
+            />
+                </TouchableOpacity> */}
                 <HTMLView
+
                     textComponentProps={{
                         style: {
                             color: colors.dark_primary,
@@ -38,12 +56,13 @@ const { navigate, go_back } = navigation
                     })
                 }}
                 style={{
-                    backgroundColor: colors.primary,
+                    backgroundColor: colors.dark_primary,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    marginTop: 10,
-                    alignSelf: 'center',
-                    width: '50%',
+                    marginBottom: 10,
+                    marginEnd: 10,
+                    alignSelf: 'flex-end',
+                    width: '30%',
                     borderRadius: 15,
                     flex: 1
                 }}>

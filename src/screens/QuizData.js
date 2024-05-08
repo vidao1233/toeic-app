@@ -16,9 +16,4 @@ export default data = [
         options: ["A designated area for parking","A place to stop and rest","A path for pedestrians to cross the road","A location for U-turns"],
         correct_option: "A path for pedestrians to cross the road"
     },
-    {
-        question: "What is the purpose of a crosswalk?",
-        options: ["A designated area for parking","A place to stop and rest","A path for pedestrians to cross the road","A location for U-turns"],
-        correct_option: "A path for pedestrians to cross the road"
-    }
 ]

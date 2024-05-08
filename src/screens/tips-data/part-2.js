@@ -50,7 +50,7 @@ Step 4: Use 5 seconds to rest between 2 sentences to prepare for the next senten
                 color: colors.primary,
                 textAlign: 'right',
               }}>
-              Part 2: Question & Answer
+              Part 3: Conversation
             </Text>
           </TouchableOpacity>
           <Image
