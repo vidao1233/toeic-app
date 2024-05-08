@@ -9,5 +9,5 @@ export{
     icons,
     colors,
     fontsizes,
-    envPath
+    envPath,
 }

@@ -261,6 +261,26 @@ function Login(props) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
+            navigate('ForgotPassword');
+          }}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            marginTop: 5,
+          }}>
+          <Text
+            style={{
+              padding: 5,
+              fontSize: 15,
+              color: colors.primary,
+              alignSelf: 'center',
+            }}>
+            Forgot password ?
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
             navigate('Register');
           }}
           style={{

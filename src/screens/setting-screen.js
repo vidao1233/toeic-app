@@ -9,7 +9,7 @@ import {
     Linking
 } from "react-native"
 import { colors, icons, fontsizes,  } from "../common"
-import { Header } from "../components"
+import { Header, ListItem } from "../components"
 import {removeJwtToken} from "../untils/jwt-storage"
 
 function Settings(props) {
@@ -24,7 +24,7 @@ function Settings(props) {
         backgroundColor: 'white',
     }}>
         <Header title='Settings System' />
-        <ScrollView>
+        <ScrollView>            
             <TouchableOpacity
                 onPress={() => {
                     navigate("Profile")
@@ -128,7 +128,10 @@ function Settings(props) {
                 height: 1,
                 marginHorizontal: 15
             }} />
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={()=>{
+                navigate("Tips")
+            }}>
                 <View style={{
                     flexDirection: 'row',
                     paddingVertical: 20,
