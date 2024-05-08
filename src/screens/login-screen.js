@@ -16,6 +16,7 @@ import {
   storeRememberedCredentials,
   removeRememberedCredentials,
 } from '../untils/jwt-storage';
+import {decodeJWT} from '../untils/user-context';
 import CheckBox from '@react-native-community/checkbox';
 
 function Login(props) {
@@ -59,8 +60,8 @@ function Login(props) {
         }),
       });
 
-      const responseData = await response.json();
-      console.log(responseData);
+      const responseData = await response.json();      
+      //console.log(responseData);
 
       if (response.ok) {
         // Xử lý dữ liệu trả về nếu cần
@@ -75,6 +76,9 @@ function Login(props) {
           responseData.freeTest.toString(),
           responseData.token,
         );
+        
+      const decoded = decodeJWT();
+      console.log('decode: ', decoded);
         navigate('UITab');
       } else {
         // Xử lý lỗi nếu cần
