@@ -7,7 +7,7 @@ import {
     Register,
     Profile,
     LessonContent,
-    Home,
+    Home, CourseList,
     ChangePassword,
     TestList,
     Vocabularies,
@@ -40,7 +40,8 @@ function App(props) {
             <Stack.Screen name={"Part1"} component={Part1}/>    
             <Stack.Screen name={"Part2"} component={Part2}/> 
             <Stack.Screen name={"Quiz"} component={Quiz}/>    
-            <Stack.Screen name={"AlarmClock"} component={AlarmClock}/>    
+            <Stack.Screen name={"AlarmClock"} component={AlarmClock}/> 
+            <Stack.Screen name={"CourseList"} component={CourseList}/>    
         </Stack.Navigator>
     </NavigationContainer>
 }

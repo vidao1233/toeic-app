@@ -1,66 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, Image, TextInput, StyleSheet, FlatList } from 'react-native';
-import { colors, icons, fontsizes, envPath } from '../common';
-import { Header } from '../components';
-import { SectionGrid } from 'react-native-super-grid';
+import React, {useState, useEffect} from 'react';
+import {
+  Text,
+  View,
+  Image,
+  TextInput,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+} from 'react-native';
+import {colors, icons, fontsizes, envPath, images} from '../common';
+import {Header, CourseItem} from '../components';
+import {SectionGrid} from 'react-native-super-grid';
 
 function Home(props) {
-  const [searchText, setSearchText] = useState('');
-  const [vocabularies, setVocabularies] = useState([]);
-
-  useEffect(() => {
-    fetch(`${envPath.domain_url}Vocabulary/GetAllVocabularies`)
-      .then(response => response.json())
-      .then(data => {
-        setVocabularies(data);
-      })
-      .catch(error => {
-        console.error('Error fetching Vocabularies:', error);
-      });
-  }, []);
-
-  const filteredVocabs = () =>
-    vocabularies.filter(vocab =>
-      vocab.engWord.toLowerCase().includes(searchText.toLowerCase()),
-    );
-
-  const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <Text style={styles.itemText}>{item}</Text>
-    </View>
-  );
-
+  const [courses, setCourses] = useState([])
+    useEffect(() => {
+        fetch(`${envPath.domain_url}Course/GetAllCourses`)
+            .then(response => response.json())
+            .then(data => {
+                // data sẽ là mảng các đối tượng course từ API
+                setCourses(data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+  const renderItemCourse = ({ item }) => (
+    <View key={item.idCourse}>
+        <CourseItem
+            onPress={() => {
+                navigate('CourseList',{
+                  idCourseHome: item.idCourse
+                })
+            }}
+            name={item.name}
+            description={item.description} />
+    </View>);
+    //navigation
+    const { navigation, route } = props
+    //function of navigate to/back
+    const { navigate, go_back } = navigation
   return (
-    <View style={styles.container}>
-      <Header title={'English Center'} />
-      <View style={styles.searchContainer}>
-        <Image source={icons.search} style={styles.searchIcon} />
-        <TextInput
-          autoCorrect={false}
-          onChangeText={text => setSearchText(text)}
-          style={styles.textInput}
-          placeholder="Search..."
-          placeholderTextColor={colors.dark_primary}
-        />
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.primary,
+      }}>
+      <Header title={"Home"} />
+      <Image style={styles.image} source={images.banner} />
+      <View
+        style={{
+          height: 50,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: colors.dark_primary,
+          justifyContent: 'center',
+          marginHorizontal: 20,
+          borderRadius: 15,
+        }}>
+        <Text
+          numberOfLines={2}
+          style={{
+            width: 260,
+            color: 'white',
+            fontSize: 25,
+            fontWeight: 'bold',
+            textAlign: 'center',
+          }}>
+          Interested course !!
+        </Text>
       </View>
-      <FlatList
-        data={[
-          { title: 'Numbers', data: [1, 2, 3, 4, 5, 6] },
-          { title: 'Alphabets', data: ['A', 'B', 'C', 'D', 'E'] },
-        ]}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.sectionContainer}>
-            <Text style={styles.sectionTitle}>{item.title}</Text>
+      <View style={{ height: 150, justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
             <FlatList
-              data={item.data}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItem}
-              horizontal
+                horizontal={true}
+                data={courses}
+                renderItem={renderItemCourse}
+                keyExtractor={item => item.idCourse.toString()}
             />
-          </View>
-        )}
-      />
+        </View>
     </View>
   );
 }
@@ -75,10 +92,11 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
+    marginTop: 10,
   },
   searchIcon: {
     width: 20,
@@ -99,7 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   itemContainer: {
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -108,6 +126,13 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: fontsizes.medium,
     color: colors.dark_primary,
+  },
+  image: {
+    marginTop: 10,
+    height: 250,
+    width: 300,
+    resizeMode: 'contain',
+    alignSelf: 'center',
   },
 });
 
