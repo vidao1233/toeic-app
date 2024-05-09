@@ -31,4 +31,5 @@ export default {
     profile_avatar: require('../assets/images/profile-avatar.png'),
     send: require('../assets/images/send.png'),
     forgot_password: require('../assets/images/forgot-password.png'),
+    speaker: require('../assets/images/speaker.png'),
 }
