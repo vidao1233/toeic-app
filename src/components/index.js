@@ -15,5 +15,5 @@ export{
     Footer,
     LessonList,
     TestItem,
-    ListItem
+    ListItem,
 }

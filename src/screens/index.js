@@ -14,6 +14,7 @@ import Tips from "./tips-to-learn";
 import Part1 from "./tips-data/part-1";
 import Part2 from "./tips-data/part-2";
 import Quiz from "./quiz-screen";
+import AlarmClock from "./alarm-clock-screen";
 
 export {
     Welcome,
@@ -31,4 +32,5 @@ export {
     Tips,
     Part1, Part2,
     Quiz,
+    AlarmClock
 }

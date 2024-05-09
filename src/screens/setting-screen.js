@@ -243,7 +243,11 @@ function Settings(props) {
                 height: 1,
                 marginHorizontal: 15
             }} />
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={()=>{
+                navigate("AlarmClock")
+            }}
+            >
                 <View style={{
                     flexDirection: 'row',
                     paddingVertical: 20,

@@ -1,31 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Alert,
-  ScrollView,
-  FlatList,
-  TextInput,
-} from 'react-native';
-import {colors, icons, images, fontsizes, envPath} from '../common';
-import {VocabularyItem, Header} from '../components';
-import {SectionGrid} from 'react-native-super-grid';
+import React, { useState, useEffect } from 'react';
+import { Text, View, Image, TextInput, StyleSheet, FlatList } from 'react-native';
+import { colors, icons, fontsizes, envPath } from '../common';
+import { Header } from '../components';
+import { SectionGrid } from 'react-native-super-grid';
 
 function Home(props) {
-  const [vocTopics, setVoctopics] = useState([]);
-  useEffect(() => {
-    fetch(`${envPath.domain_url}VocTopic/GetAllVocTopic`)
-      .then(response => response.json())
-      .then(data => {
-        setVoctopics(data);
-      })
-      .catch(error => {
-        console.error('Error fetching VocTopic:', error);
-      });
-  }, []);
+  const [searchText, setSearchText] = useState('');
   const [vocabularies, setVocabularies] = useState([]);
+
   useEffect(() => {
     fetch(`${envPath.domain_url}Vocabulary/GetAllVocabularies`)
       .then(response => response.json())
@@ -36,73 +18,97 @@ function Home(props) {
         console.error('Error fetching Vocabularies:', error);
       });
   }, []);
-  const [searchText, setSearchText] = useState('');
+
   const filteredVocabs = () =>
     vocabularies.filter(vocab =>
       vocab.engWord.toLowerCase().includes(searchText.toLowerCase()),
     );
+
+  const renderItem = ({ item }) => (
+    <View style={styles.itemContainer}>
+      <Text style={styles.itemText}>{item}</Text>
+    </View>
+  );
+
   return (
-    <View
-      style={{
-        backgroundColor: colors.primary,
-        flex: 100,
-      }}>
+    <View style={styles.container}>
       <Header title={'English Center'} />
-      <View
-        style={{
-          marginHorizontal: 10,
-          marginVertical: 10,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <Image
-          source={icons.search}
-          style={{
-            height: 30,
-            width: 30,
-            position: 'absolute',
-            top: 5,
-            left: 5,
-          }}
-        />
+      <View style={styles.searchContainer}>
+        <Image source={icons.search} style={styles.searchIcon} />
         <TextInput
           autoCorrect={false}
-          onChangeText={text => {
-            setSearchText(text);
-          }}
-          style={{
-            color: colors.dark_primary,
-            backgroundColor: 'white',
-            height: 40,
-            flex: 1,
-            borderRadius: 5,
-            opacity: 0.8,
-            paddingStart: 40,
-          }}
+          onChangeText={text => setSearchText(text)}
+          style={styles.textInput}
+          placeholder="Search..."
+          placeholderTextColor={colors.dark_primary}
         />
       </View>
-      <SectionGrid
-      style={{
-        backgroundColor: 'grey',
-        marginHorizontal: 20
-      }}
-        itemDimension={130}
-        sections={[
-          {
-            title: 'Numbers',
-            data: [1, 2, 3, 4, 5, 6],
-          },
-          {
-            title: 'Alphabets',
-            data: ['A', 'B', 'C', 'D', 'E'],
-          },
+      <FlatList
+        data={[
+          { title: 'Numbers', data: [1, 2, 3, 4, 5, 6] },
+          { title: 'Alphabets', data: ['A', 'B', 'C', 'D', 'E'] },
         ]}
-        renderItem={({item}) => <Text>{item}</Text>}
-        renderSectionHeader={({section}) => (
-          <Text style={{fontSize: 20}}>{section.title}</Text>
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.sectionContainer}>
+            <Text style={styles.sectionTitle}>{item.title}</Text>
+            <FlatList
+              data={item.data}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItem}
+              horizontal
+            />
+          </View>
         )}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.primary,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  searchIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+  },
+  textInput: {
+    flex: 1,
+    height: 40,
+    color: colors.dark_primary,
+  },
+  sectionContainer: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: fontsizes.medium,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  itemContainer: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginRight: 10,
+  },
+  itemText: {
+    fontSize: fontsizes.medium,
+    color: colors.dark_primary,
+  },
+});
+
 export default Home;

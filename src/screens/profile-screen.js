@@ -17,8 +17,10 @@ import {CourseItem, Header, Footer, LessonList} from '../components';
 import CalendarPicker from 'react-native-calendar-picker';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {Picker} from '@react-native-picker/picker';
+import { getJwtToken,  } from '../untils/jwt-storage';
+import { loginContext } from '../untils/user-context';
 
-function Profile(props) {
+async function Profile(props) {
   //state to store email/password
   const [fullname, setFullname] = useState('Dao Thi Thanh Vi');
   const [selectedGender, setSelectedGender] = useState('');
@@ -27,6 +29,46 @@ function Profile(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const jwt = await getJwtToken();
+  const loginInfo = await loginContext(jwt.token);
+
+  // useEffect(() => {
+  //   if (testTypeSelected !== null) {
+  //     setIsLoading(true);
+  //     fetch(`${envPath.domain_url}Authen/Update-Profile/${loginInfo.idUser}`,
+  //       {
+  //         method: 'PUT',
+  //         headers: {
+  //           Authorization: `Bearer ${user.token}`,
+  //         },
+  //         body: 
+  //         {
+  //           FullName:fullname,
+  //           dateOfBirth:birthDay,
+  //           Gender: selectedGender,
+  //           PhoneNumber:phone,            
+  //           Enable2FA: isEnabled,
+  //           //NewImage:,
+  //           //OldImage:,
+  //         }
+  //       }
+  //     )
+  //       .then(response => {
+  //         if (!response.ok) {
+  //           throw new Error('Network response was not ok');
+  //         }
+  //         return response.json();
+  //       })
+  //       .then(data => {
+  //         setTests(data);
+  //         setIsLoading(false);
+  //       })
+  //       .catch(error => {
+  //         console.error('Error fetching tests:', error);
+  //         setIsLoading(false);
+  //       });
+  //   }
+  // }, [testTypeSelected]);
 
   const genders = ['Male', 'Female'];
   const onDateChange = date => {

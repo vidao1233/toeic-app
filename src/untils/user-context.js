@@ -12,6 +12,8 @@ import {isValidUsername, isValidPassword} from '../untils/validations';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {storeJwtToken, getJwtToken} from '../untils/jwt-storage';
 import {jwtDecode} from 'jwt-decode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import "core-js/stable/atob";
 
 export const fetchData = async () => {
     const jwt = await getJwtToken();
@@ -40,33 +42,20 @@ export const decodeJWT = async () => {
     }
   };
 
-export const useFetchUser = () => {
-    const [user, setUser] = useState([]);
-    const tokenDecoded = decodeJWT()    
-  
-    useEffect(() => {
-      const fetchTestTypes = async () => {
-        try {
-          const response = await fetch(`${envPath.domain_url}Authen/GetProfile?id=${tokenDecoded.id}`,
-          {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${(await fetchData()).toString()}`,
-              },
-          });
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const data = await response.json();
-          setTestTypes(data);
-        } catch (error) {
-          console.error('Error fetching test types:', error);
-        }
-      };
-  
-      fetchTestTypes();
-    }, []);
-  
-    return user;
+export  const loginContext = async (token) => {
+    const token_decode = decodeJWT(token);
+    const {
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": username,
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": role,
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier":
+        idUser,
+    } = token_decode;
+    setUser((user) => ({
+      username: username,
+      role: role,
+      auth: true,
+      idUser: idUser,
+      token: token,
+    }));
+    await AsyncStorage.setItem("jwt", token);
   };
