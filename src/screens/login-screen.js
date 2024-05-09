@@ -80,10 +80,10 @@ function Login(props) {
       const decoded = decodeJWT();
       console.log('decode: ', decoded);
         navigate('UITab');
-      } else {
+      } else if (response.status == 404){
         // Xử lý lỗi nếu cần
-        console.error('Request failed with status:', response.status);
-        Alert.alert('Login failed. Please try again.');
+        //console.error('Request failed with status:', response.status);
+        Alert.alert('Account doesn\'t exist. Please register or check email to confirm.');
       }
     } catch (error) {
       // Xử lý lỗi nếu có

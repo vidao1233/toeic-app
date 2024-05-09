@@ -52,11 +52,12 @@ function Register(props) {
         
               if (response.ok) {
                 // Xử lý dữ liệu trả về nếu cần
+                Alert.alert('Successful ! An email confirm sent to your email !')
                 navigate('Login')
-              } else {
+              } else if (response.status == 403) {
                 // Xử lý lỗi nếu cần
-                console.error('Request failed with status:', response.status);
-                Alert.alert('Login failed. Please try again.');
+                //console.error('Request failed with status:', response.status);
+                Alert.alert('You already have account. Please login!');
               }
             } catch (error) {
               // Xử lý lỗi nếu có
@@ -238,7 +239,7 @@ function Register(props) {
                 >Register</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => {                    
+                onPress={() => {                  
                     navigate('Login')
                 }}
                 style={{
