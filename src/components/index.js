@@ -6,6 +6,7 @@ import Footer from "./footer";
 import LessonList from "./lesson_list";
 import TestItem from "./test_item";
 import ListItem from "./list_item";
+import { VideoHome } from "./video_home";
 
 export{
     UIButton,
@@ -16,4 +17,5 @@ export{
     LessonList,
     TestItem,
     ListItem,
+    VideoHome
 }

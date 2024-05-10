@@ -29,46 +29,7 @@ async function Profile(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const jwt = await getJwtToken();
-  const loginInfo = await loginContext(jwt.token);
 
-  // useEffect(() => {
-  //   if (testTypeSelected !== null) {
-  //     setIsLoading(true);
-  //     fetch(`${envPath.domain_url}Authen/Update-Profile/${loginInfo.idUser}`,
-  //       {
-  //         method: 'PUT',
-  //         headers: {
-  //           Authorization: `Bearer ${user.token}`,
-  //         },
-  //         body: 
-  //         {
-  //           FullName:fullname,
-  //           dateOfBirth:birthDay,
-  //           Gender: selectedGender,
-  //           PhoneNumber:phone,            
-  //           Enable2FA: isEnabled,
-  //           //NewImage:,
-  //           //OldImage:,
-  //         }
-  //       }
-  //     )
-  //       .then(response => {
-  //         if (!response.ok) {
-  //           throw new Error('Network response was not ok');
-  //         }
-  //         return response.json();
-  //       })
-  //       .then(data => {
-  //         setTests(data);
-  //         setIsLoading(false);
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching tests:', error);
-  //         setIsLoading(false);
-  //       });
-  //   }
-  // }, [testTypeSelected]);
 
   const genders = ['Male', 'Female'];
   const onDateChange = date => {
@@ -219,7 +180,7 @@ async function Profile(props) {
             <View style={style.modalContainer}>
               <CalendarPicker
                 onDateChange={onDateChange}
-                selectedDate={birthDay ? new Date(birthDay) : null}
+                selectedDate={birthDay}
                 width={300}
                 height={300}
                 textStyle={{fontSize: fontsizes.h3, color: 'white'}}

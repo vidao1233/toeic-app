@@ -9,44 +9,45 @@ import {
   ScrollView,
 } from 'react-native';
 import {colors, icons, fontsizes, envPath, images} from '../common';
-import {Header, CourseItem} from '../components';
-import {SectionGrid} from 'react-native-super-grid';
+import {Header, CourseItem, VideoHome} from '../components';
+
 
 function Home(props) {
-  const [courses, setCourses] = useState([])
-    useEffect(() => {
-        fetch(`${envPath.domain_url}Course/GetAllCourses`)
-            .then(response => response.json())
-            .then(data => {
-                // data sẽ là mảng các đối tượng course từ API
-                setCourses(data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, []);
-  const renderItemCourse = ({ item }) => (
+  const [courses, setCourses] = useState([]);
+  
+  useEffect(() => {
+    fetch(`${envPath.domain_url}Course/GetAllCourses`)
+      .then(response => response.json())
+      .then(data => {
+        // data sẽ là mảng các đối tượng course từ API
+        setCourses(data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+  const renderItemCourse = ({item}) => (
     <View key={item.idCourse}>
-        <CourseItem
-            onPress={() => {
-                navigate('CourseList',{
-                  idCourseHome: item.idCourse
-                })
-            }}
-            name={item.name}
-            description={item.description} />
-    </View>);
-    //navigation
-    const { navigation, route } = props
-    //function of navigate to/back
-    const { navigate, go_back } = navigation
+      <CourseItem
+        onPress={() => {
+          navigate('CourseList');
+        }}
+        name={item.name}
+        description={item.description}
+      />
+    </View>
+  );
+  //navigation
+  const {navigation, route} = props;
+  //function of navigate to/back
+  const {navigate, go_back} = navigation;
   return (
     <View
       style={{
         flex: 1,
         backgroundColor: colors.primary,
       }}>
-      <Header title={"Home"} />
+      <Header title={'Home'} />
       <Image style={styles.image} source={images.banner} />
       <View
         style={{
@@ -70,18 +71,27 @@ function Home(props) {
           Interested course !!
         </Text>
       </View>
-      <View style={{ height: 150, justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-            <FlatList
-                horizontal={true}
-                data={courses}
-                renderItem={renderItemCourse}
-                keyExtractor={item => item.idCourse.toString()}
-            />
-        </View>
+      <View
+        style={{
+          height: 150,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 15,
+        }}>
+        <FlatList
+          horizontal={true}
+          data={courses}
+          renderItem={renderItemCourse}
+          keyExtractor={item => item.idCourse.toString()}
+        />
+      </View>      
+        <VideoHome/> 
     </View>
   );
 }
 
+
+export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -136,4 +146,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+
