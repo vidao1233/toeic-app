@@ -17,12 +17,15 @@ import {
     AlarmClock
 } from '../screens'
 import UITab from './UITab'
+import { LogBox } from 'react-native';
 
 const Stack = createNativeStackNavigator()
+LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 function App(props) {
     return <NavigationContainer>
-        <Stack.Navigator initialRouteName='Profile' screenOptions={{
+        <Stack.Navigator initialRouteName='Home' screenOptions={{
             headerShown: false
         }}>
             <Stack.Screen name={"Welcome"} component={Welcome}/>

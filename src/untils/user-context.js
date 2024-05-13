@@ -1,23 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {
   Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Alert,
-  TextInput,
 } from 'react-native';
-import {colors, icons, images, envPath} from '../common';
-import {isValidUsername, isValidPassword} from '../untils/validations';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {storeJwtToken, getJwtToken} from '../untils/jwt-storage';
-import {jwtDecode} from 'jwt-decode';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {envPath} from '../common';
+import {getJwtToken} from '../untils/jwt-storage';
 import "core-js/stable/atob";
 
-export const fetchData = async () => {
+export const fetchToken = async () => {
     const jwt = await getJwtToken();
     if (jwt) {
+        console.log(`context ${jwt.token}`)
         return jwt.token;
       } else {
         console.warn('Không tìm thấy JWT trong AsyncStorage.');
@@ -25,37 +17,54 @@ export const fetchData = async () => {
       }
   }
 
-export const decodeJWT = async () => {
+  export const getCurrentUserInfo = async () => {
     try {
-      const jwt = await fetchData();
-      if (jwt) {
-        const decoded = jwtDecode(jwt);
-        console.log(decoded)
-        return decoded;
-      } else {
-        console.warn('Không tìm thấy JWT trong AsyncStorage.');
-        return null;
-      }
+      const response = await fetch(`${envPath.domain_url}Authen/CurrentUserInfo`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${(fetchToken())}`,
+        }
+      });
+      const data = await response.json();
+      console.log(data);
+      return data;
     } catch (error) {
-      console.error('Lỗi khi decode JWT từ AsyncStorage:', error);
+      console.error('Error fetching user:', error);
       return null;
     }
-  };
+  }
 
-export  const loginContext = async (token) => {
-    const token_decode = decodeJWT(token);
-    const {
-      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": username,
-      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": role,
-      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier":
-        idUser,
-    } = token_decode;
-    setUser((user) => ({
-      username: username,
-      role: role,
-      auth: true,
-      idUser: idUser,
-      token: token,
-    }));
-    await AsyncStorage.setItem("jwt", token);
-  };
+// export const resendConfirmEmail = (props) => {
+//   const { username } = props; // Destructure username from props
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await fetch(`${envPath.domain_url}Authen/ResendConfirmEmail?username=${username}`, {
+//           method: 'GET',
+//           headers: {
+//             'Content-Type': 'application/json',
+//           },
+//         });
+
+//         if (response.status === 200) {
+//           // Handle success
+//           Alert.alert('We have sent EmailConfirm to email. Verified your email to Login!');
+//         } else if (response.status === 403) {
+//           // Handle account not existing
+//           Alert.alert('Account doesn\'t exist. Please register.');
+//         } else {
+//           // Handle other status codes
+//           Alert.alert('An error occurred. Please try again later.');
+//         }
+//       } catch (error) {
+//         // Handle network errors
+//         console.error('Request failed:', error);
+//         Alert.alert('An error occurred. Please try again later.');
+//       }
+//     };
+
+//     fetchData(); // Call the fetchData function
+//   }, [username]); // Make sure to include username as a dependency
+// };  

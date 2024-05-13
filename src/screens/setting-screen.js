@@ -28,8 +28,7 @@ function Settings(props) {
         <ScrollView>            
             <TouchableOpacity
                 onPress={() => {
-                    //navigate("Profile")
-                    Alert.alert('pressed')
+                    navigate("Profile")
                 }}
             >
                 <View style={{
@@ -247,7 +246,7 @@ function Settings(props) {
             }} />
             <TouchableOpacity
             onPress={()=>{
-                navigate("AlarmClock")
+                //navigate("AlarmClock")
             }}
             >
                 <View style={{

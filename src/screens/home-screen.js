@@ -9,31 +9,114 @@ import {
   ScrollView,
 } from 'react-native';
 import {colors, icons, fontsizes, envPath, images} from '../common';
-import {Header, CourseItem, VideoHome} from '../components';
-
+import {Header, CourseItem, VideoHome, TypeItem, PartItem} from '../components';
+import { FlatGrid } from 'react-native-super-grid';
 
 function Home(props) {
-  const [courses, setCourses] = useState([]);
-  
+  const [types, setTypes] = useState([]);
+  const [listenParts, setListenParts] = useState([]);
+  const [readParts, setReadParts] = useState([]);
+  const dataTypes = [
+    {
+      idTestType: '123',
+      typeName: 'Mini Test',
+      icon: `${icons.rocket}`,
+    },
+    {
+      idTestType: '124',
+      typeName: 'Full Test',
+      icon: `${icons.puzzle}`,
+    },
+  ];
+
+  const dataPartListen = [
+    {
+      partId: '121',
+      partName: 'Part 1',
+      icon: `${icons.rocket}`,
+      colors: '#df91c5'
+    },
+    {
+      partId: '122',
+      partName: 'Part 2',
+      icon: `${icons.puzzle}`,
+      colors: '#cc4f91'
+    },
+    {
+      partId: '123',
+      partName: 'Part 3',
+      icon: `${icons.rocket}`,
+      colors: '#d2659e'
+    },
+    {
+      partId: '124',
+      partName: 'Part 4',
+      icon: `${icons.puzzle}`,
+      colors: '#d97b7b'
+    },
+  ];
+  const dataPartRead = [
+    {
+      partId: '125',
+      partName: 'Part 5',
+      icon: `${icons.rocket}`,
+      colors: '#7bd9ac'
+    },
+    {
+      partId: '126',
+      partName: 'Part 6',
+      icon: `${icons.puzzle}`,
+      colors: '#7b8bd9'
+    },
+    {
+      partId: '127',
+      partName: 'Part 7',
+      icon: `${icons.puzzle}`,
+      colors: '#a7dee5'
+    },
+  ];
+
   useEffect(() => {
-    fetch(`${envPath.domain_url}Course/GetAllCourses`)
-      .then(response => response.json())
-      .then(data => {
-        // data sẽ là mảng các đối tượng course từ API
-        setCourses(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    setTypes(dataTypes);
   }, []);
-  const renderItemCourse = ({item}) => (
-    <View key={item.idCourse}>
-      <CourseItem
+  useEffect(() => {
+    setListenParts(dataPartListen);
+  }, []);
+  useEffect(() => {
+    setReadParts(dataPartRead);
+  }, []);
+
+  // useEffect(() => {
+  //   fetch(`${envPath.domain_url}TestType/GetAllTestTypes`)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setTestTypes(data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching test types:', error);
+  //     });
+  // }, []);
+
+  const renderItemType = ({item}) => (
+    <View key={item.idTestType}>
+      <TypeItem
         onPress={() => {
           navigate('CourseList');
         }}
-        name={item.name}
-        description={item.description}
+        name={item.typeName}
+        icon={item.icon}
+      />
+    </View>
+  );
+  const renderItemPart = ({item}) => (
+    <View key={item.partId}>
+      <PartItem
+        onPress={() => {
+          navigate('CourseList');
+        }}
+        name={item.partName}
+        icon={item.icon}
+        color={item.colors}
       />
     </View>
   );
@@ -49,47 +132,74 @@ function Home(props) {
       }}>
       <Header title={'Home'} />
       <Image style={styles.image} source={images.banner} />
-      <View
-        style={{
-          height: 50,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: colors.dark_primary,
-          justifyContent: 'center',
-          marginHorizontal: 20,
-          borderRadius: 15,
-        }}>
-        <Text
-          numberOfLines={2}
+      <ScrollView style={{backgroundColor: colors.primary}}>
+        <View style={styles.textTitleContain}>
+          <Text
+            numberOfLines={1}
+            style={styles.title}>
+            TOEIC Practice
+          </Text>
+        </View>
+        <View
           style={{
-            width: 260,
-            color: 'white',
-            fontSize: 25,
-            fontWeight: 'bold',
-            textAlign: 'center',
+            height: 90,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 15,
           }}>
-          Interested course !!
-        </Text>
-      </View>
-      <View
-        style={{
-          height: 150,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 15,
-        }}>
-        <FlatList
-          horizontal={true}
-          data={courses}
-          renderItem={renderItemCourse}
-          keyExtractor={item => item.idCourse.toString()}
-        />
-      </View>      
-        <VideoHome/> 
+          <FlatList
+            horizontal={true}
+            data={types}
+            renderItem={renderItemType}
+            keyExtractor={item => item.idTestType.toString()}
+          />
+        </View>
+        <View style={styles.textTitleContain}>
+          <Text
+            numberOfLines={1}
+            style={styles.title}>
+            Practice Listening
+          </Text>
+        </View>
+        <View
+          style={{
+            height: 90,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 15,
+          }}>
+          <FlatList
+            horizontal={true}
+            data={listenParts}
+            renderItem={renderItemPart}
+            keyExtractor={item => item.partId.toString()}
+          />
+        </View>
+        <View style={styles.textTitleContain}>
+          <Text
+            numberOfLines={1}
+            style={styles.title}>
+            Practice Reading
+          </Text>
+        </View>
+        <View
+          style={{
+            height: 90,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 15,
+          }}>
+          <FlatList
+            horizontal={true}
+            data={readParts}
+            renderItem={renderItemPart}
+            keyExtractor={item => item.partId.toString()}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
-
 
 export default Home;
 const styles = StyleSheet.create({
@@ -99,27 +209,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
   },
-  searchContainer: {
-    flexDirection: 'row',
+  textTitleContain: {
+    height: 35,
     alignItems: 'center',
-    backgroundColor: 'black',
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    marginTop: 10,
+    justifyContent: 'center',
+    backgroundColor: colors.dark_primary,
+    justifyContent: 'center',
+    marginHorizontal: 20,
+    borderRadius: 15,
   },
-  searchIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 10,
-  },
-  textInput: {
-    flex: 1,
-    height: 40,
-    color: colors.dark_primary,
-  },
-  sectionContainer: {
-    marginBottom: 20,
+  title: {
+    width: 260,
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   sectionTitle: {
     fontSize: fontsizes.medium,
@@ -138,12 +242,11 @@ const styles = StyleSheet.create({
     color: colors.dark_primary,
   },
   image: {
-    marginTop: 10,
-    height: 250,
-    width: 300,
+    marginBottom: 15,
+    height: 220,
+    width: 415,
     resizeMode: 'contain',
     alignSelf: 'center',
+    backgroundColor: 'white',
   },
 });
-
-
