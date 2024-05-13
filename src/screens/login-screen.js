@@ -16,32 +16,34 @@ import {
   storeRememberedCredentials,
   removeRememberedCredentials,
 } from '../untils/jwt-storage';
-import {decodeJWT} from '../untils/user-context';
 import CheckBox from '@react-native-community/checkbox';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 function Login(props) {
-  //state to validate
   const [errorUsername, setErrorUsername] = useState('');
   const [errorPassword, setErrorPassword] = useState('');
-  //state to store email/password
+  const [rememberMe, setRememberMe] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  //remember
-  const [rememberMe, setRememberMe] = useState(true);
-  const rememberedCredentials = getRememberedCredentials();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleRemember = async () => {
-    if (!rememberedCredentials) {
-      setUsername(rememberedCredentials.username.toString());
-      setUsername(rememberedCredentials.password.toString());
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const credentials = await getRememberedCredentials();
+      if (credentials) {
+        setUsername(credentials.username);
+        setPassword(credentials.password);
+      }
+    };
+    fetchData();
+  }, []);
 
   const isValidationOK = () =>
     username.length > 0 &&
     password.length > 0 &&
-    isValidUsername(username) == true &&
-    isValidPassword(password) == true;
+    isValidUsername(username) &&
+    isValidPassword(password);
 
   const handleLogin = async () => {
     if (!isValidationOK()) {
@@ -60,15 +62,12 @@ function Login(props) {
         }),
       });
 
-      const responseData = await response.json();      
-      //console.log(responseData);
+      const responseData = await response.json();
 
       if (response.ok) {
-        // Xử lý dữ liệu trả về nếu cần
         if (rememberMe) {
-          storeRememberedCredentials(username, password);
-        } else {
           removeRememberedCredentials();
+          storeRememberedCredentials(username, password);
         }
         storeJwtToken(
           responseData.emailConfirmed.toString(),
@@ -76,20 +75,21 @@ function Login(props) {
           responseData.freeTest.toString(),
           responseData.token,
         );
-        
-      const decoded = decodeJWT();
-      console.log('decode: ', decoded);
+        Alert.alert('Login successful.');
         navigate('UITab');
-      } else {
-        // Xử lý lỗi nếu cần
-        console.error('Request failed with status:', response.status);
-        Alert.alert('Login failed. Please try again.');
+      } else if (response.status == 404) {
+        Alert.alert(
+          "Account doesn't exist. Please register or check email to confirm.",
+        );
       }
     } catch (error) {
-      // Xử lý lỗi nếu có
       console.error('Request failed:', error);
       Alert.alert('An error occurred. Please try again later.');
     }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   //navigation
@@ -159,7 +159,7 @@ function Login(props) {
               fontSize: 18,
             }}
             placeholder="Enter your username"
-            value={rememberedCredentials.username}
+            value={username}
             placeholderTextColor={colors.placeHolder}
             fontSize={18}
             underlineColorAndroid={colors.primary}
@@ -183,7 +183,8 @@ function Login(props) {
             }}>
             Password:
           </Text>
-          <TextInput
+            <View style={{flexDirection: 'row'}}>
+            <TextInput
             onChangeText={text => {
               setErrorPassword(
                 isValidPassword(text) == true
@@ -195,14 +196,25 @@ function Login(props) {
             style={{
               color: 'black',
               fontSize: 18,
+              width: 350,
             }}
-            secureTextEntry={true}
+            secureTextEntry={!showPassword}
             placeholder="Enter your password"
-            value={rememberedCredentials.password}
+            value={password}
             placeholderTextColor={colors.placeHolder}
             fontSize={18}
             underlineColorAndroid={colors.primary}
           />
+          <TouchableOpacity
+            onPress={toggleShowPassword}
+            style={{position: 'absolute', right: 5, top: 10}}>
+            <FontAwesomeIcon
+              icon={showPassword ? faEye : faEyeSlash}
+              size={20}
+              color="gray"
+            />
+          </TouchableOpacity>
+            </View>
           <Text
             style={{
               color: colors.error_message,

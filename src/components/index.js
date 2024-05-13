@@ -6,6 +6,9 @@ import Footer from "./footer";
 import LessonList from "./lesson_list";
 import TestItem from "./test_item";
 import ListItem from "./list_item";
+import { VideoHome } from "./video_home";
+import TypeItem from "./type_test_grid";
+import PartItem from "./part_item";
 
 export{
     UIButton,
@@ -14,6 +17,7 @@ export{
     VocabularyItem,
     Footer,
     LessonList,
-    TestItem,
+    TestItem, TypeItem, PartItem,
     ListItem,
+    VideoHome
 }

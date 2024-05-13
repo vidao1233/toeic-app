@@ -7,6 +7,7 @@ export const storeJwtToken = async (emailConfirmed, expiration, freeTest ,token)
         await AsyncStorage.setItem('expiration', expiration);
         await AsyncStorage.setItem('freeTest', freeTest);
         await AsyncStorage.setItem('jwt', token);
+        console.log(`storage ${token}`)
         console.log('JWT token đã được lưu trữ thành công!');
     } catch (error) {
         console.error('Lỗi khi lưu trữ JWT:', error);

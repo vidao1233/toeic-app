@@ -8,6 +8,7 @@ import { colors, icons, images, fontsizes, envPath } from "../common"
 import { CourseItem, Header, Footer, LessonList } from "../components"
 
 function CourseList(props) {
+    const {idCourseHome} = props
     const [courses, setCourses] = useState([])
     const [lessons, setLessons] = useState([])
     const [selectedCourseId, setSelectedCourseId] = useState(null);

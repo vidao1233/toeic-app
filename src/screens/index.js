@@ -6,7 +6,6 @@ import Vocabularies from "./vocabularies-screen";
 import Settings from "./setting-screen";
 import Profile from "./profile-screen";
 import LessonContent from "./lesson-content";
-import Home from "./home-screen";
 import ChangePassword from "./change-password-screen";
 import TestList from "./test-list-screen";
 import ForgotPassword from "./forgot-password";
@@ -15,6 +14,7 @@ import Part1 from "./tips-data/part-1";
 import Part2 from "./tips-data/part-2";
 import Quiz from "./quiz-screen";
 import AlarmClock from "./alarm-clock-screen";
+import Home from "./home-screen";
 
 export {
     Welcome,
@@ -25,12 +25,12 @@ export {
     Settings,
     Profile,
     LessonContent,
-    Home,
     ChangePassword,
     TestList,
     ForgotPassword,
     Tips,
     Part1, Part2,
     Quiz,
-    AlarmClock
+    AlarmClock, 
+    Home
 }

@@ -1,70 +1,207 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, Image, TextInput, StyleSheet, FlatList } from 'react-native';
-import { colors, icons, fontsizes, envPath } from '../common';
-import { Header } from '../components';
-import { SectionGrid } from 'react-native-super-grid';
+import React, {useState, useEffect} from 'react';
+import {
+  Text,
+  View,
+  Image,
+  TextInput,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+} from 'react-native';
+import {colors, icons, fontsizes, envPath, images} from '../common';
+import {Header, CourseItem, VideoHome, TypeItem, PartItem} from '../components';
+import { FlatGrid } from 'react-native-super-grid';
 
 function Home(props) {
-  const [searchText, setSearchText] = useState('');
-  const [vocabularies, setVocabularies] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [listenParts, setListenParts] = useState([]);
+  const [readParts, setReadParts] = useState([]);
+  const dataTypes = [
+    {
+      idTestType: '123',
+      typeName: 'Mini Test',
+      icon: `${icons.rocket}`,
+    },
+    {
+      idTestType: '124',
+      typeName: 'Full Test',
+      icon: `${icons.puzzle}`,
+    },
+  ];
+
+  const dataPartListen = [
+    {
+      partId: '121',
+      partName: 'Part 1',
+      icon: `${icons.rocket}`,
+      colors: '#df91c5'
+    },
+    {
+      partId: '122',
+      partName: 'Part 2',
+      icon: `${icons.puzzle}`,
+      colors: '#cc4f91'
+    },
+    {
+      partId: '123',
+      partName: 'Part 3',
+      icon: `${icons.rocket}`,
+      colors: '#d2659e'
+    },
+    {
+      partId: '124',
+      partName: 'Part 4',
+      icon: `${icons.puzzle}`,
+      colors: '#d97b7b'
+    },
+  ];
+  const dataPartRead = [
+    {
+      partId: '125',
+      partName: 'Part 5',
+      icon: `${icons.rocket}`,
+      colors: '#7bd9ac'
+    },
+    {
+      partId: '126',
+      partName: 'Part 6',
+      icon: `${icons.puzzle}`,
+      colors: '#7b8bd9'
+    },
+    {
+      partId: '127',
+      partName: 'Part 7',
+      icon: `${icons.puzzle}`,
+      colors: '#a7dee5'
+    },
+  ];
 
   useEffect(() => {
-    fetch(`${envPath.domain_url}Vocabulary/GetAllVocabularies`)
-      .then(response => response.json())
-      .then(data => {
-        setVocabularies(data);
-      })
-      .catch(error => {
-        console.error('Error fetching Vocabularies:', error);
-      });
+    setTypes(dataTypes);
+  }, []);
+  useEffect(() => {
+    setListenParts(dataPartListen);
+  }, []);
+  useEffect(() => {
+    setReadParts(dataPartRead);
   }, []);
 
-  const filteredVocabs = () =>
-    vocabularies.filter(vocab =>
-      vocab.engWord.toLowerCase().includes(searchText.toLowerCase()),
-    );
+  // useEffect(() => {
+  //   fetch(`${envPath.domain_url}TestType/GetAllTestTypes`)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setTestTypes(data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching test types:', error);
+  //     });
+  // }, []);
 
-  const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <Text style={styles.itemText}>{item}</Text>
+  const renderItemType = ({item}) => (
+    <View key={item.idTestType}>
+      <TypeItem
+        onPress={() => {
+          navigate('CourseList');
+        }}
+        name={item.typeName}
+        icon={item.icon}
+      />
     </View>
   );
-
-  return (
-    <View style={styles.container}>
-      <Header title={'English Center'} />
-      <View style={styles.searchContainer}>
-        <Image source={icons.search} style={styles.searchIcon} />
-        <TextInput
-          autoCorrect={false}
-          onChangeText={text => setSearchText(text)}
-          style={styles.textInput}
-          placeholder="Search..."
-          placeholderTextColor={colors.dark_primary}
-        />
-      </View>
-      <FlatList
-        data={[
-          { title: 'Numbers', data: [1, 2, 3, 4, 5, 6] },
-          { title: 'Alphabets', data: ['A', 'B', 'C', 'D', 'E'] },
-        ]}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.sectionContainer}>
-            <Text style={styles.sectionTitle}>{item.title}</Text>
-            <FlatList
-              data={item.data}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItem}
-              horizontal
-            />
-          </View>
-        )}
+  const renderItemPart = ({item}) => (
+    <View key={item.partId}>
+      <PartItem
+        onPress={() => {
+          navigate('CourseList');
+        }}
+        name={item.partName}
+        icon={item.icon}
+        color={item.colors}
       />
+    </View>
+  );
+  //navigation
+  const {navigation, route} = props;
+  //function of navigate to/back
+  const {navigate, go_back} = navigation;
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.primary,
+      }}>
+      <Header title={'Home'} />
+      <Image style={styles.image} source={images.banner} />
+      <ScrollView style={{backgroundColor: colors.primary}}>
+        <View style={styles.textTitleContain}>
+          <Text
+            numberOfLines={1}
+            style={styles.title}>
+            TOEIC Practice
+          </Text>
+        </View>
+        <View
+          style={{
+            height: 90,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 15,
+          }}>
+          <FlatList
+            horizontal={true}
+            data={types}
+            renderItem={renderItemType}
+            keyExtractor={item => item.idTestType.toString()}
+          />
+        </View>
+        <View style={styles.textTitleContain}>
+          <Text
+            numberOfLines={1}
+            style={styles.title}>
+            Practice Listening
+          </Text>
+        </View>
+        <View
+          style={{
+            height: 90,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 15,
+          }}>
+          <FlatList
+            horizontal={true}
+            data={listenParts}
+            renderItem={renderItemPart}
+            keyExtractor={item => item.partId.toString()}
+          />
+        </View>
+        <View style={styles.textTitleContain}>
+          <Text
+            numberOfLines={1}
+            style={styles.title}>
+            Practice Reading
+          </Text>
+        </View>
+        <View
+          style={{
+            height: 90,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 15,
+          }}>
+          <FlatList
+            horizontal={true}
+            data={readParts}
+            renderItem={renderItemPart}
+            keyExtractor={item => item.partId.toString()}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
+export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -72,26 +209,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
   },
-  searchContainer: {
-    flexDirection: 'row',
+  textTitleContain: {
+    height: 35,
     alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10,
+    justifyContent: 'center',
+    backgroundColor: colors.dark_primary,
+    justifyContent: 'center',
+    marginHorizontal: 20,
+    borderRadius: 15,
   },
-  searchIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 10,
-  },
-  textInput: {
-    flex: 1,
-    height: 40,
-    color: colors.dark_primary,
-  },
-  sectionContainer: {
-    marginBottom: 20,
+  title: {
+    width: 260,
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   sectionTitle: {
     fontSize: fontsizes.medium,
@@ -99,7 +231,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   itemContainer: {
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -109,6 +241,12 @@ const styles = StyleSheet.create({
     fontSize: fontsizes.medium,
     color: colors.dark_primary,
   },
+  image: {
+    marginBottom: 15,
+    height: 220,
+    width: 415,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    backgroundColor: 'white',
+  },
 });
-
-export default Home;

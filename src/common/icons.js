@@ -32,4 +32,6 @@ export default {
     send: require('../assets/images/send.png'),
     forgot_password: require('../assets/images/forgot-password.png'),
     speaker: require('../assets/images/speaker.png'),
+    rocket: require('../assets/images/rocket.png'),
+    puzzle: require('../assets/images/puzzle.png'),
 }

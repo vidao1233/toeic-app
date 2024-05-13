@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     ScrollView,
     Switch,
-    Linking
+    Linking,
+    Alert
 } from "react-native"
 import { colors, icons, fontsizes,  } from "../common"
 import { Header, ListItem } from "../components"
@@ -245,7 +246,7 @@ function Settings(props) {
             }} />
             <TouchableOpacity
             onPress={()=>{
-                navigate("AlarmClock")
+                //navigate("AlarmClock")
             }}
             >
                 <View style={{

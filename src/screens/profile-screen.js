@@ -17,60 +17,20 @@ import {CourseItem, Header, Footer, LessonList} from '../components';
 import CalendarPicker from 'react-native-calendar-picker';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {Picker} from '@react-native-picker/picker';
-import { getJwtToken,  } from '../untils/jwt-storage';
-import { loginContext } from '../untils/user-context';
+import { getCurrentUserInfo } from '../untils/user-context';
 
-async function Profile(props) {
+function Profile(props) {
   //state to store email/password
-  const [fullname, setFullname] = useState('Dao Thi Thanh Vi');
+  const [fullname, setFullname] = useState('');
   const [selectedGender, setSelectedGender] = useState('');
-  const [phone, setPhone] = useState('0376294216');
+  const [phone, setPhone] = useState('');
   const [birthDay, setBirthDay] = useState(null);
+  const [avatar, setAvatar] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const jwt = await getJwtToken();
-  const loginInfo = await loginContext(jwt.token);
-
-  // useEffect(() => {
-  //   if (testTypeSelected !== null) {
-  //     setIsLoading(true);
-  //     fetch(`${envPath.domain_url}Authen/Update-Profile/${loginInfo.idUser}`,
-  //       {
-  //         method: 'PUT',
-  //         headers: {
-  //           Authorization: `Bearer ${user.token}`,
-  //         },
-  //         body: 
-  //         {
-  //           FullName:fullname,
-  //           dateOfBirth:birthDay,
-  //           Gender: selectedGender,
-  //           PhoneNumber:phone,            
-  //           Enable2FA: isEnabled,
-  //           //NewImage:,
-  //           //OldImage:,
-  //         }
-  //       }
-  //     )
-  //       .then(response => {
-  //         if (!response.ok) {
-  //           throw new Error('Network response was not ok');
-  //         }
-  //         return response.json();
-  //       })
-  //       .then(data => {
-  //         setTests(data);
-  //         setIsLoading(false);
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching tests:', error);
-  //         setIsLoading(false);
-  //       });
-  //   }
-  // }, [testTypeSelected]);
-
   const genders = ['Male', 'Female'];
+
   const onDateChange = date => {
     // Đảm bảo tháng và ngày được hiển thị dưới dạng hai chữ số
     const formattedMonth =
@@ -80,6 +40,19 @@ async function Profile(props) {
     const formattedDate = `${formattedMonth}/${formattedDay}/${date.getFullYear()}`;
     setBirthDay(formattedDate);
   };
+  //get user
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getCurrentUserInfo();
+      console.log(`profile ${data}`)
+      if (data) {
+        setFullname(data.user.fullname);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
   return (
     <KeyboardAwareScrollView>
       <Header title={'User profile'} />
@@ -114,7 +87,7 @@ async function Profile(props) {
           justifyContent: 'center',
           alignSelf: 'center',
         }}>
-        Đào Vi
+        {fullname}
       </Text>
       <View
         style={{
@@ -219,7 +192,7 @@ async function Profile(props) {
             <View style={style.modalContainer}>
               <CalendarPicker
                 onDateChange={onDateChange}
-                selectedDate={birthDay ? new Date(birthDay) : null}
+                selectedDate={birthDay}
                 width={300}
                 height={300}
                 textStyle={{fontSize: fontsizes.h3, color: 'white'}}
