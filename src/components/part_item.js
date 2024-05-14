@@ -12,12 +12,12 @@ import {
 import {colors, icons, images, fontsizes, envPath} from '../common';
 
 function PartItem(props) {
-  const {name, icon} = props;
+  const {name, icon, description} = props;
   const {onPress} = props;
   
   // Mảng màu pastel
   const partColors = [
-    '#FFFD96', '#FFD1DC', '#AEC6CF', '#B0E57C', '#B19CD9', '#FFB347', '#AFEEEE', '#FFDAB9', '#E6E6FA', '#98FF98', '#FF6F61', '#C8A2C8', '#FA8072', '#87CEEB'
+    '#f9e9ec', '#e5e0a7', '#e9f7f9', '#f2d3e2', '#a7e5e4', '#a7c6e5', '#a7a7e5', '#d1bdec', '#e6bdec', '#d691df', '#ecbddb', '#df91c3', '#f2d3da', '#e5a7b4'
   ];
 
   // Hàm xáo trộn mảng
@@ -36,19 +36,19 @@ function PartItem(props) {
   const randomColor = shuffledColors.pop();
 
   return (
-    <TouchableOpacity
+    <View style={{justifyContent:'center', alignItems: 'center'}}>
+        <TouchableOpacity
       onPress={onPress}
       style={{
         height: 80,
         width: 80,
-        paddingStart: 10,
+        paddingStart: 3,
         backgroundColor: randomColor,
         borderRadius: 10,
         marginHorizontal: 10,
-        marginVertical: 10,
+        marginVertical: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 5,
       }}>
       <Image
         style={{
@@ -67,6 +67,16 @@ function PartItem(props) {
           {`${name}`}
         </Text>
     </TouchableOpacity>
+    <Text
+          style={{          
+            color: 'black',
+            fontSize: fontsizes.h5,
+            alignSelf: 'center',
+            fontWeight: '400',
+          }}>
+          {`${description}`}
+        </Text>
+    </View>
   );
 }
 export default PartItem;

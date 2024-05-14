@@ -12,10 +12,12 @@ import {
 import {colors, icons, images, fontsizes, envPath} from '../common';
 
 function TypeItem(props) {
-  const {name, icon} = props;
+  const {name, icon, description} = props;
+  console.log(props)
   const {onPress} = props;
   return (
-    <TouchableOpacity
+    <View>
+      <TouchableOpacity
       onPress={onPress}
       style={{
         height: 80,
@@ -46,6 +48,16 @@ function TypeItem(props) {
           {`${name}`}
         </Text>
     </TouchableOpacity>
+    <Text
+          style={{          
+            color: 'black',
+            fontSize: fontsizes.h5,
+            alignSelf: 'center',
+            fontWeight: '400',
+          }}>
+          {`${description}`}
+        </Text>
+    </View>
   );
 }
 export default TypeItem;

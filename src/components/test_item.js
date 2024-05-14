@@ -1,70 +1,68 @@
 import {Text, View, Image, TouchableOpacity} from 'react-native';
-import {icons, fontsizes} from '../common';
+import {icons, fontsizes, colors} from '../common';
 
 function TestItem(props) {
-  const {name, time, questionNum} = props;
+  const {name, icon, num} = props;
   const {onPress} = props;
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={{
-        height: 140,
-        paddingStart: 10,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        marginHorizontal: 10,
-        marginVertical: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 5,
-      }}>
-      <Image
-        style={{
-          height: 50,
-          width: 50,
-          marginTop: 5,
-          resizeMode: 'cover',
-        }}
-        source={icons.course_icon}
-      />
-      <View
-        style={{
-          flex: 1,
-          marginHorizontal: 15,
-        }}>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: fontsizes.h3,
-            fontWeight: 'bold',
-          }}>
-          {`${name}`.toUpperCase()}
-        </Text>
-        <View style={{height: 1, backgroundColor: 'black'}}></View>
+    <View>
+      <TouchableOpacity onPress={onPress}>
         <View
           style={{
             flexDirection: 'row',
-            marginLeft: 30,
-            marginVertical: 10,
-            justifyContent: 'center',
+            paddingVertical: 10,
+            marginTop: 10,
           }}>
+          <Image
+            source={icon}
+            style={{
+              marginStart: 10,
+              height: 30,
+              width: 30,
+              alignSelf: 'center',
+            }}
+          />
           <Text
-            numberOfLines={1}
             style={{
-              width: 90,
               color: 'black',
-              fontSize: fontsizes.h4,
-            }}>{questionNum} câu</Text>
-            <Text
-            numberOfLines={1}
+              fontSize: fontsizes.h2,
+              paddingStart: 30,
+            }}>
+            {name}
+          </Text>
+          <View style={{flex: 1}} />
+          <Image
+            source={icons.right_arrow}
             style={{
-              width: 90,
-              color: 'black',
-              fontSize: fontsizes.h4,
-            }}>{time} phút</Text>
+              paddingEnd: 10,
+              marginEnd: 10,
+              height: 20,
+              width: 20,
+              alignSelf: 'center',
+              opacity: 0.3,
+            }}
+          />
         </View>
-      </View>
-    </TouchableOpacity>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: fontsizes.h5,
+            marginLeft: 70,
+            fontWeight: '400',
+            marginBottom: 5,
+          }}>
+          {`${num} questions`}
+        </Text>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: colors.dark_primary,
+            height: 1,
+            marginHorizontal: 15,
+          }}
+        />
+      </TouchableOpacity>
+    </View>
   );
 }
 export default TestItem;

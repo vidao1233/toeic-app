@@ -26,9 +26,7 @@ const screenOptions = ({ route }) => ({
         const iconName = screenName == "Vocabularies" ? icons.vocabularies :
             (screenName == "CourseList" ? icons.online_course : (
                 screenName == "Settings" ? icons.setting : (
-                    screenName == "Home" ? icons.home :(
-                        screenName == "TestList" ? icons.test:''
-                    ))
+                    screenName == "Home" ? icons.home : '')
             ))
         return <Image source={iconName}
             style={{
@@ -70,17 +68,6 @@ function UITab(props) {
             component={CourseList}
             options={{
                 tabBarLabel: 'Courses',
-                tabBarLabelStyle: {
-                    fontSize: fontsizes.h4,
-                    marginTop: 10
-                }
-            }}
-        />
-        <Tab.Screen
-            name={"TestList"}
-            component={TestList}
-            options={{
-                tabBarLabel: 'Tests',
                 tabBarLabelStyle: {
                     fontSize: fontsizes.h4,
                     marginTop: 10
