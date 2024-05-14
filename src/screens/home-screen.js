@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {colors, icons, fontsizes, envPath, images} from '../common';
 import {Header, CourseItem, VideoHome, TypeItem, PartItem} from '../components';
-import { FlatGrid } from 'react-native-super-grid';
+import {FlatGrid} from 'react-native-super-grid';
 
 function Home(props) {
   const [types, setTypes] = useState([]);
@@ -20,12 +20,14 @@ function Home(props) {
     {
       idTestType: '123',
       typeName: 'Mini Test',
-      icon: `${icons.rocket}`,
+      description: `Random 48 questions`,
+      icon: icons.rocket,
     },
     {
       idTestType: '124',
       typeName: 'Full Test',
-      icon: `${icons.puzzle}`,
+      description: `Full test 200 questions`,
+      icon: icons.puzzle,
     },
   ];
 
@@ -33,46 +35,46 @@ function Home(props) {
     {
       partId: '121',
       partName: 'Part 1',
-      icon: `${icons.rocket}`,
-      colors: '#df91c5'
+      icon: icons.p1,
+      description: 'Photographs',
     },
     {
       partId: '122',
       partName: 'Part 2',
-      icon: `${icons.puzzle}`,
-      colors: '#cc4f91'
+      icon: icons.p2,
+      description: `Questions`,
     },
     {
       partId: '123',
       partName: 'Part 3',
-      icon: `${icons.rocket}`,
-      colors: '#d2659e'
+      icon: icons.p3,
+      description: `Conversation`,
     },
     {
       partId: '124',
       partName: 'Part 4',
-      icon: `${icons.puzzle}`,
-      colors: '#d97b7b'
+      icon: icons.p4,
+      description: `Short talks`,
     },
   ];
   const dataPartRead = [
     {
       partId: '125',
       partName: 'Part 5',
-      icon: `${icons.rocket}`,
-      colors: '#7bd9ac'
+      icon: icons.p5,
+      description: `Sentences`,
     },
     {
       partId: '126',
       partName: 'Part 6',
-      icon: `${icons.puzzle}`,
-      colors: '#7b8bd9'
+      icon: icons.p6,
+      description: `Text completion`,
     },
     {
       partId: '127',
       partName: 'Part 7',
-      icon: `${icons.puzzle}`,
-      colors: '#a7dee5'
+      icon: icons.p7,
+      description: `Reading`,
     },
   ];
 
@@ -86,25 +88,16 @@ function Home(props) {
     setReadParts(dataPartRead);
   }, []);
 
-  // useEffect(() => {
-  //   fetch(`${envPath.domain_url}TestType/GetAllTestTypes`)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       setTestTypes(data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching test types:', error);
-  //     });
-  // }, []);
-
   const renderItemType = ({item}) => (
     <View key={item.idTestType}>
       <TypeItem
         onPress={() => {
-          navigate('CourseList');
+          const typeNameWithoutSpaces = item.typeName.replace(/\s/g, '');
+          navigate(`${typeNameWithoutSpaces}`);
         }}
         name={item.typeName}
         icon={item.icon}
+        description={item.description}
       />
     </View>
   );
@@ -116,7 +109,7 @@ function Home(props) {
         }}
         name={item.partName}
         icon={item.icon}
-        color={item.colors}
+        description={item.description}
       />
     </View>
   );
@@ -134,18 +127,16 @@ function Home(props) {
       <Image style={styles.image} source={images.banner} />
       <ScrollView style={{backgroundColor: colors.primary}}>
         <View style={styles.textTitleContain}>
-          <Text
-            numberOfLines={1}
-            style={styles.title}>
+          <Text numberOfLines={1} style={styles.title}>
             TOEIC Practice
           </Text>
         </View>
         <View
           style={{
-            height: 90,
+            height: 115,
             justifyContent: 'center',
             alignItems: 'center',
-            marginVertical: 15,
+            marginVertical: 10,
           }}>
           <FlatList
             horizontal={true}
@@ -155,18 +146,16 @@ function Home(props) {
           />
         </View>
         <View style={styles.textTitleContain}>
-          <Text
-            numberOfLines={1}
-            style={styles.title}>
+          <Text numberOfLines={1} style={styles.title}>
             Practice Listening
           </Text>
         </View>
         <View
           style={{
-            height: 90,
+            height: 115,
             justifyContent: 'center',
             alignItems: 'center',
-            marginVertical: 15,
+            marginVertical: 10,
           }}>
           <FlatList
             horizontal={true}
@@ -176,18 +165,16 @@ function Home(props) {
           />
         </View>
         <View style={styles.textTitleContain}>
-          <Text
-            numberOfLines={1}
-            style={styles.title}>
+          <Text numberOfLines={1} style={styles.title}>
             Practice Reading
           </Text>
         </View>
         <View
           style={{
-            height: 90,
+            height: 115,
             justifyContent: 'center',
             alignItems: 'center',
-            marginVertical: 15,
+            marginVertical: 10,
           }}>
           <FlatList
             horizontal={true}
@@ -231,7 +218,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   itemContainer: {
-    backgroundColor: 'black',
+    backgroundColor: 'grey',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,

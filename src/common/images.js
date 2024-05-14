@@ -11,5 +11,6 @@ export default{
     spalsh: require('../assets/images/splash.png'),
     firework: require('../assets/images/firework.png'),
     banner: require('../assets/images/banner.png'),
+    fulltest: require('../assets/images/fulltest.png'),
     
 }

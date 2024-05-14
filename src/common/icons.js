@@ -34,4 +34,11 @@ export default {
     speaker: require('../assets/images/speaker.png'),
     rocket: require('../assets/images/rocket.png'),
     puzzle: require('../assets/images/puzzle.png'),
+    p1: require('../assets/images/p1.png'),
+    p2: require('../assets/images/p2.png'),
+    p3: require('../assets/images/p3.png'),
+    p4: require('../assets/images/p4.png'),
+    p5: require('../assets/images/p5.png'),
+    p6: require('../assets/images/p6.png'),
+    p7: require('../assets/images/p7.png'),
 }
