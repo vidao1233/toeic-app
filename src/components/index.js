@@ -9,6 +9,8 @@ import ListItem from "./list_item";
 import { VideoHome } from "./video_home";
 import TypeItem from "./type_test_grid";
 import PartItem from "./part_item";
+import Question from "./question_item";
+import UnitItem from "./unit_item";
 
 export{
     UIButton,
@@ -16,8 +18,8 @@ export{
     Header,
     VocabularyItem,
     Footer,
-    LessonList,
-    TestItem, TypeItem, PartItem,
+    LessonList, Question,
+    TestItem, TypeItem, PartItem, UnitItem,
     ListItem,
     VideoHome
 }

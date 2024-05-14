@@ -5,7 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  ScrollView,
+  ActivityIndicator,
   FlatList,
   TextInput,
 } from 'react-native';
@@ -261,13 +261,7 @@ function Vocabularies(props) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Text
-                style={{
-                  color: 'black',
-                  fontSize: fontsizes.h3,
-                }}>
-                Loading...
-              </Text>
+              <ActivityIndicator size="large" color={colors.primary} />
             </View>
           ) : (
             <>

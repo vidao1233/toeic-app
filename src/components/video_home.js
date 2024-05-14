@@ -1,48 +1,30 @@
-import React, { useState, useEffect } from "react"
-import {
-    Text,
-    View,
-    StyleSheet
-} from "react-native"
-import { colors, icons, images, fontsizes, envPath } from "../common"
+import React, { useState, useRef } from 'react';
+import { StyleSheet } from 'react-native';
 import Video from 'react-native-video';
 
-export const VideoHome = () => {
-    const [isPlaying, setIsPlaying] = useState([]);
-    return <View
-    style={{
-      height: 160,
-      alignItems: 'center',
-      justifyContent: 'center',
-      justifyContent: 'center',
-      marginHorizontal: 10,
-      marginVertical: 10,
-      borderRadius: 15,
-    }}>
+export const VideoHome = (props) => {
+  const { audio } = props;
+  const [isPlaying, setIsPlaying] = useState(false);
+  const playerRef = useRef(null);
+
+  return (
     <Video
-      source={{
-        uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-      }} // Can be a URL or a local file.
-      ref={ref => {
-        this.player = ref;
-      }}
+      source={{ uri: audio }} // Can be a URL or a local file.
+      ref={playerRef}
       controls={true}
-      autoplay={true}
+      audioOnly={true}
       paused={!isPlaying}
-      onEnd={() => setIsPlaying(false)} // Store reference
-      onBuffer={this.onBuffer} // Callback when remote video is buffering
-      onError={this.videoError} // Callback when video cannot be loaded
+      onEnd={() => setIsPlaying(false)}
+      onBuffer={() => console.log('Buffering...')} // Example onBuffer handler
+      onError={(error) => console.log('Error loading video:', error)} // Example onError handler
       style={styles.backgroundVideo}
     />
-  </View>
+  );
+};
 
-}
 const styles = StyleSheet.create({
-    backgroundVideo: {
-      position: 'absolute',
-      top: 10,
-      left: 70,
-      bottom: 0,
-      right: 78,
-    },
-  });
+  backgroundVideo: {
+    width: '100%', // Chiều rộng của player
+    height: 50,    // Chiều cao của player (hoặc bất kỳ kích thước nào bạn muốn)
+  },
+});

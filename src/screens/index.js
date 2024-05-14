@@ -16,6 +16,7 @@ import AlarmClock from "./alarm-clock-screen";
 import Home from "./home-screen";
 import FullTest from "./full-test-screen";
 import MiniTest from "./mini-test-screen";
+import DoTest from "./do-test-screen";
 
 export {
     Welcome,
@@ -27,7 +28,7 @@ export {
     Profile,
     LessonContent,
     ChangePassword,
-    FullTest, MiniTest,
+    FullTest, MiniTest, DoTest,
     ForgotPassword,
     Tips,
     Part1, Part2,

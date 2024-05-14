@@ -9,7 +9,7 @@ import {
     LessonContent,
     Home, CourseList,
     ChangePassword,
-    FullTest, MiniTest,
+    FullTest, MiniTest, DoTest,
     Vocabularies,
     ForgotPassword,
     Tips, Part1, Part2,
@@ -43,7 +43,8 @@ function App(props) {
             <Stack.Screen name={"Part2"} component={Part2}/> 
             <Stack.Screen name={"Quiz"} component={Quiz}/>    
             <Stack.Screen name={"FullTest"} component={FullTest}/>  
-            <Stack.Screen name={"MiniTest"} component={MiniTest}/>    
+            <Stack.Screen name={"MiniTest"} component={MiniTest}/> 
+            <Stack.Screen name={"DoTest"} component={DoTest}/>    
             <Stack.Screen name={"AlarmClock"} component={AlarmClock}/> 
             <Stack.Screen name={"CourseList"} component={CourseList}/>    
         </Stack.Navigator>
