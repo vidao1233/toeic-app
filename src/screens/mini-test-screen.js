@@ -42,7 +42,11 @@ function MiniTest(props) {
     <View key={item.idTest}>
       <TestItem
         onPress={() => {
-          Alert.alert(`selected`);
+          navigate('DoTest',
+            {
+              idTest: item.idTest
+            }
+          )
         }}
         name={item.name}
         num={48}

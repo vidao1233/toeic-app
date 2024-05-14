@@ -10,7 +10,7 @@ import {
   TextInput,
 } from 'react-native';
 import {colors, icons, images, fontsizes, envPath} from '../common';
-import {TestItem, Header, Footer, UnitItem} from '../components';
+import {TestItem, Header, Footer, UnitItem, Question} from '../components';
 import Tts from 'react-native-tts';
 
 function DoTest(props) {
@@ -18,7 +18,7 @@ function DoTest(props) {
   const { navigation, route } = props;
   const { navigate, go_back } = navigation
   const { idTest } = route.params; 
-  const [selectPart, setSelectPart] = useState(null);
+  const [selectPart, setSelectPart] = useState('1baa42ee-9ad8-4cf3-b8d9-dd1d848d4ca6');
   const [parts, setParts] = useState([]);
   const [units, setUnits] = useState([]);
   const [questions, setQuestions] = useState([]);
@@ -61,47 +61,20 @@ function DoTest(props) {
       const filteredUnits = units.filter(unit => unit.idTestPart === selectPart);
       setUnitByPart(filteredUnits);
     } else {
-      setUnitByPart([]);
+      setUnitByPart('1baa42ee-9ad8-4cf3-b8d9-dd1d848d4ca6');
     }
   }, [selectPart, units]);
-
-  // Lấy danh sách các câu hỏi liên quan đến các unit đã chọn
-  // useEffect(() => {
-  //   if (unitByPart.length > 0) {
-  //     setIsLoading(true);
-  //     const unitIds = unitByPart.map(unit => unit.idQuestionUnit);
-  //     fetch(`${envPath.domain_url}Question/GetAllQuestionByUnit/${unitIds.join(',')}`)
-  //       .then(response => response.json())
-  //       .then(data => {
-  //         setQuestions(data);          
-  //         setIsLoading(false);
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching Questions:', error);
-  //         setIsLoading(false);
-  //       });
-  //   } else {
-  //     setQuestions([]);
-  //   }
-  // }, [unitByPart]);
-
-
-  // Xử lý khi chọn một part
-  const handlePartPress = (idPart) => {
-    if (selectPart === idPart) {
-        setSelectPart(null);
-    } else {
-        setSelectPart(idPart);
-    }
-};
 
   // Render mỗi unit
   const renderItemTest = ({ item }) => (
     <View key={item.idQuestionUnit}>
-      <UnitItem
+      <UnitItem        
         image={item.image}
         audio={item.audio}
+        paragraph={item.paragraph}
+        script={item.script}
       />
+      <Question idUnit={item.idQuestionUnit}/>
     </View>
   );
 
@@ -122,7 +95,7 @@ function DoTest(props) {
           height: 50,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: colors.primary,
+          backgroundColor: colors.primary,          
         }}>
         <FlatList
           horizontal={true}
@@ -130,17 +103,18 @@ function DoTest(props) {
           keyExtractor={item => item.partId}
           renderItem={({item}) => (
             <TouchableOpacity
-              onPress={() => handlePartPress(item.partId)}
+              onPress={() => setSelectPart(item.partId)}
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: 25,
                 marginTop: 5,
+                marginLeft: 5
               }}>
               <Text
                 numberOfLines={1}
                 style={{
-                  width: 60,
+                  width: 55,
                   color: selectPart === item.partId ? colors.primary : 'black',
                   fontSize: fontsizes.h4,
                   fontWeight: 'bold',

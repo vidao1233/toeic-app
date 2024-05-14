@@ -146,7 +146,7 @@ function Login(props) {
           </Text>
           <TextInput
             onChangeText={text => {
-              handleRemember();
+              //handleRemember();
               setErrorUsername(
                 isValidUsername(text) == true
                   ? ''
