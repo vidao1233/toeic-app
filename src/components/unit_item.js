@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {
   Button,
-  View, Text,
+  View,
+  Text,
   Image,
   TouchableOpacity,
   ScrollView,
@@ -12,6 +13,7 @@ import {colors, icons, fontsizes, envPath, images} from '../common';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Sound from 'react-native-sound';
 import Question from './question_item';
+import HTMLView from 'react-native-htmlview';
 
 function UnitItem(props) {
   const {paragraph, audio, image, script, translation} = props;
@@ -50,17 +52,43 @@ function UnitItem(props) {
   };
 
   return (
-    <View style={{backgroundColor: colors.primary, marginTop: 20, borderRadius: 20, marginHorizontal: 10}}>
+    <View
+      style={{
+        backgroundColor: colors.primary,
+        marginTop: 20,
+        borderRadius: 20,
+        marginHorizontal: 10,
+      }}>
       {image && <Image style={styles.image} source={{uri: image}} />}
       {audio && (
-        <View style={styles.controls}>          
+        <View style={styles.controls}>
           <TouchableOpacity onPress={togglePlayPause} style={styles.button}>
-          <View style={{flexDirection: 'row'}}>
-          <Icon name={isPlaying ? "pause-circle" : "play-circle"} size={30} color="white" style={styles.icon} />
-            <Text style={styles.buttonText}>{isPlaying ? 'Pause' : 'Play to listen'}</Text>
-          </View>
+            <View style={{flexDirection: 'row'}}>
+              <Icon
+                name={isPlaying ? 'pause-circle' : 'play-circle'}
+                size={30}
+                color="white"
+                style={styles.icon}
+              />
+              <Text style={styles.buttonText}>
+                {isPlaying ? 'Pause' : 'Play to listen'}
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
+      )}
+      {paragraph && (
+        <HTMLView
+          styles={styles.content}
+          textComponentProps={{
+            style: {
+              color: 'black',
+              fontSize: fontsizes.h3,
+              alignSelf: 'center',
+            },
+          }}
+          value={paragraph}
+        />
       )}
       <Text style={styles.titleText}>Answer the questions below:</Text>
     </View>
@@ -76,6 +104,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 20,
     borderRadius: 15,
+    textAlign: 'justify',
   },
   title: {
     width: 260,
@@ -84,11 +113,19 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     textAlign: 'center',
   },
+  content: {
+    marginTop: 20,
+    fontSize: 17,
+    color: 'black',
+    lineHeight: 30,
+    textAlign: 'justify',
+    marginHorizontal: 20,
+  },
   titleText: {
     color: 'white', // Customize text color
     fontSize: fontsizes.h3, // Customize text size
     alignSelf: 'center',
-    marginBottom: 5
+    marginBottom: 5,
   },
   image: {
     marginVertical: 10,
@@ -97,14 +134,14 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
     alignSelf: 'center',
     backgroundColor: colors.inactive,
-    borderRadius: 15
+    borderRadius: 15,
   },
   controls: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
-    marginHorizontal: 30
+    marginHorizontal: 30,
   },
   button: {
     backgroundColor: colors.dark_primary, // Customize button color

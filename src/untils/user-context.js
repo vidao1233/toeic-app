@@ -9,7 +9,6 @@ import "core-js/stable/atob";
 export const fetchToken = async () => {
     const jwt = await getJwtToken();
     if (jwt) {
-        console.log(`context ${jwt.token}`)
         return jwt.token;
       } else {
         console.warn('Không tìm thấy JWT trong AsyncStorage.');
@@ -17,23 +16,37 @@ export const fetchToken = async () => {
       }
   }
 
-  export const getCurrentUserInfo = async () => {
+  async function fetchData() {
+    const getJWT = await getJwtToken();
+    console.log(getJWT.token); // Sử dụng giá trị của getJWT ở đây
+    return getJWT.token;
+  }
+
+  export const getCurrentUserInfo = async () => {    
     try {
+      const jwt = await getJwtToken();
       const response = await fetch(`${envPath.domain_url}Authen/CurrentUserInfo`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${(fetchToken())}`,
-        }
+          Authorization: `Bearer ${jwt.token}`,
+        },
       });
+  
+      // Check if the response status is OK (status code 200-299)
+      if (!response.ok) {
+        console.error(`HTTP error! Status: ${response.status}`);
+        return null;
+      }
+  
       const data = await response.json();
-      console.log(data);
+      console.log(`context ${JSON.stringify(data)}`);
       return data;
     } catch (error) {
       console.error('Error fetching user:', error);
       return null;
     }
-  }
+  };
 
 // export const resendConfirmEmail = (props) => {
 //   const { username } = props; // Destructure username from props

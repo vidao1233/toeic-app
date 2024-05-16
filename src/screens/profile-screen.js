@@ -17,7 +17,8 @@ import {CourseItem, Header, Footer, LessonList} from '../components';
 import CalendarPicker from 'react-native-calendar-picker';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {Picker} from '@react-native-picker/picker';
-import { getCurrentUserInfo } from '../untils/user-context';
+import {getJwtToken} from '../untils/jwt-storage';
+import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
 function Profile(props) {
   //state to store email/password
@@ -25,9 +26,10 @@ function Profile(props) {
   const [selectedGender, setSelectedGender] = useState('');
   const [phone, setPhone] = useState('');
   const [birthDay, setBirthDay] = useState(null);
-  const [avatar, setAvatar] = useState('');
+  const [avatar, setAvatar] = useState(icons.profile_avatar);
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
+  const [user, setUser] = useState('')
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const genders = ['Male', 'Female'];
 
@@ -42,21 +44,62 @@ function Profile(props) {
   };
   //get user
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getCurrentUserInfo();
-      console.log(`profile ${data}`)
-      if (data) {
-        setFullname(data.user.fullname);
+    const fetchUserInfo = async () => {
+      try {
+        const jwt = await getJwtToken();
+        if (!jwt) {
+          console.error('JWT token not found');
+          return;
+        }
+
+        const response = await fetch(`${envPath.domain_url}Authen/CurrentUserInfo`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt.token}`,
+          },
+        });
+
+        if (!response.ok) {
+          console.error(`HTTP error! Status: ${response.status}`);
+          return;
+        }
+
+        const data = await response.json();
+        console.log(`${JSON.stringify(data)}`);
+        setUser(data.user);
+      } catch (error) {
+        console.error('Error fetching user:', error);
       }
     };
-  
-    fetchData();
+
+    fetchUserInfo();
   }, []);
+
+  const selectImage = () => {
+    const options = {
+      mediaType: 'photo',
+      maxWidth: 150,
+      maxHeight: 150,
+      quality: 1,
+    };
+
+    launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.assets && response.assets.length > 0) {
+        const source = { uri: response.assets[0].uri };
+        setAvatar(source);
+      }
+    });
+  };
 
   return (
     <KeyboardAwareScrollView>
       <Header title={'User profile'} />
-      <TouchableOpacity>
+      <TouchableOpacity onPress={selectImage}>
       <View
         style={{
           borderRadius: 70,
@@ -75,7 +118,7 @@ function Profile(props) {
             resizeMode: 'cover',
             borderRadius: 70,
           }}
-          source={icons.profile_avatar}
+          source={avatar}
         />
       </View>
       </TouchableOpacity>

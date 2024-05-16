@@ -4,6 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import PushNotification from 'react-native-push-notification';
+import { Header } from '../components';
 
 const AlarmClock = () => {
   const [alarmTime, setAlarmTime] = useState(new Date());
@@ -71,8 +72,9 @@ const AlarmClock = () => {
 
   return (
     <View style={styles.container}>
+      <Header title={'Reminder'} />
       <View style={styles.header}>
-        <Text style={styles.appName}>AlarmClock</Text>
+        <Text style={styles.appName}>Reminder me at:</Text>
       </View>
 
       <View style={styles.clockContainer}>
@@ -105,7 +107,7 @@ const AlarmClock = () => {
         {/* Thêm các tùy chọn khác nếu cần thiết */}
       </Picker>
 
-      <Button title="Select Alarm Sound" onPress={selectAlarmSound} />
+      {/* <Button title="Select Alarm Sound" onPress={selectAlarmSound} /> */}
 
       <Button title="Save Alarm" onPress={handleSetAlarm} />
     </View>

@@ -105,7 +105,7 @@ function Home(props) {
     <View key={item.partId}>
       <PartItem
         onPress={() => {
-          navigate('CourseList');
+          navigate('Coming');
         }}
         name={item.partName}
         icon={item.icon}

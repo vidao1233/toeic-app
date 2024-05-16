@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
   ScrollView,
   FlatList,
-  TextInput,
+  StyleSheet,
 } from 'react-native';
 import {colors, icons, images, fontsizes, envPath} from '../common';
 import {TestItem, Header, Footer, UnitItem, Question} from '../components';
@@ -24,6 +24,7 @@ function DoTest(props) {
   const [questions, setQuestions] = useState([]);
   const [unitByPart, setUnitByPart] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(120 * 60); 
 
   // Lấy danh sách các phần từ API khi component mount
   useEffect(() => {
@@ -78,6 +79,27 @@ function DoTest(props) {
     </View>
   );
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(prevTime => {
+        if (prevTime <= 0) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
   if (isLoading) {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -85,11 +107,46 @@ function DoTest(props) {
       </View>
     );
   }
-  console.log(unitByPart)
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Header title={'Doing test'} />
+      <View style={{
+          height: 50,
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'row',   
+          width: 385,   
+          marginLeft: 15,
+
+        }}>
+          <View style={styles.timeView}>
+        <Text style={styles.timeText}>{formatTime(timeLeft)}</Text>
+        <View style={{width: 220}}></View>
+      </View>
+          <TouchableOpacity
+          onPress={() => {
+            navigate('Coming');
+          }}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginLeft: 75,
+            width: 90,
+            borderRadius: 5,
+            backgroundColor: colors.primary
+          }}>
+          <Text
+            style={{
+              padding: 10,
+              fontSize: 15,
+              color: 'white',
+              fontWeight: '700'
+            }}>
+            Submit
+          </Text>
+        </TouchableOpacity>
+      </View>
       <View
         style={{
           height: 50,
@@ -141,3 +198,38 @@ function DoTest(props) {
 }
 
 export default DoTest;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  timeView: {
+    height: 50,
+    justifyContent: 'center',
+    marginLeft: 5,
+  },
+  timeText: {
+    fontSize: 15,
+    color: 'red',
+  },
+  submitView: {
+    height: 50,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: 'grey',
+  },
+  submitButton: {
+    alignItems: 'center',
+    marginVertical: 5,
+    alignSelf: 'center',
+    width: 90,
+    borderRadius: 5,
+    backgroundColor: colors.primary,
+  },
+  submitText: {
+    padding: 10,
+    fontSize: 18,
+    color: 'white',
+  },
+});

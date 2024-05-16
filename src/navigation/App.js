@@ -14,7 +14,8 @@ import {
     ForgotPassword,
     Tips, Part1, Part2,
     Quiz,
-    AlarmClock
+    AlarmClock,
+    Coming
 } from '../screens'
 import UITab from './UITab'
 import { LogBox } from 'react-native';
@@ -25,11 +26,12 @@ LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 function App(props) {
     return <NavigationContainer>
-        <Stack.Navigator initialRouteName='UITab' screenOptions={{
+        <Stack.Navigator initialRouteName='Welcome' screenOptions={{
             headerShown: false
         }}>
             <Stack.Screen name={"Welcome"} component={Welcome}/>
             <Stack.Screen name={"Home"} component={Home}/>
+            <Stack.Screen name={"Coming"} component={Coming}/>
             <Stack.Screen name={"Login"} component={Login}/>
             <Stack.Screen name={"Register"} component={Register}/>
             <Stack.Screen name={"Profile"} component={Profile}/>

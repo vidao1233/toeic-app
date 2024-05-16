@@ -17,6 +17,7 @@ import Home from "./home-screen";
 import FullTest from "./full-test-screen";
 import MiniTest from "./mini-test-screen";
 import DoTest from "./do-test-screen";
+import Coming from "./handle-coming-screen";
 
 export {
     Welcome,
@@ -34,5 +35,5 @@ export {
     Part1, Part2,
     Quiz,
     AlarmClock, 
-    Home
+    Home, Coming
 }
